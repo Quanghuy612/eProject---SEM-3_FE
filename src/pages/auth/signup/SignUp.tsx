@@ -11,6 +11,9 @@ import type ApiResponse from "../../../types/ApiResponse";
 const signupSchema = Yup.object({
     username: Yup.string().required("Username is required"),
     fullname: Yup.string().required("Full name is required"),
+    phoneNumber: Yup.string()
+        .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+        .required("Phone number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
     confirmPassword: Yup.string()
@@ -21,6 +24,7 @@ const signupSchema = Yup.object({
 type SignupInputs = {
     username: string;
     fullname: string;
+    phoneNumber: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -81,6 +85,20 @@ export default function SignUp() {
                     </label>
                     <input id="fullname" type="text" {...register("fullname")} className="w-full border px-3 py-2 rounded" autoComplete="off" />
                     {errors.fullname && <p className="text-red-600 text-sm mt-1">{errors.fullname.message}</p>}
+                </div>
+
+                <div>
+                    <label htmlFor="phoneNumber" className="block mb-1 font-medium">
+                        Phone number
+                    </label>
+                    <input
+                        id="phoneNumber"
+                        type="phoneNumber"
+                        {...register("phoneNumber")}
+                        className="w-full border px-3 py-2 rounded"
+                        autoComplete="off"
+                    />
+                    {errors.phoneNumber && <p className="text-red-600 text-sm mt-1">{errors.phoneNumber.message}</p>}
                 </div>
 
                 <div>

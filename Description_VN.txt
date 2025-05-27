@@ -1,94 +1,94 @@
-1. Mô tả Dự Án
-Một trang web cần được phát triển để người dùng di động có thể nạp tiền cho điện thoại của mình. Người dùng có thể kích hoạt bất kỳ dịch vụ nào do công ty cung cấp thông qua trang web này. Trang web cho phép thanh toán hóa đơn trả sau của điện thoại di động và tạo tài khoản. Người dùng phải đăng ký tài khoản để sử dụng bất kỳ dịch vụ nào, ngoại trừ việc nạp tiền điện thoại (tức là nạp tiền Top up). Tất cả các thông tin, bao gồm người dùng đã đăng ký và các giao dịch nạp tiền hàng ngày, sẽ được quản trị viên xem.
+	1. Mô tả Dự Án
+	Một trang web cần được phát triển để người dùng di động có thể nạp tiền cho điện thoại của mình. Người dùng có thể kích hoạt bất kỳ dịch vụ nào do công ty cung cấp thông qua trang web này. Trang web cho phép thanh toán hóa đơn trả sau của điện thoại di động và tạo tài khoản. Người dùng phải đăng ký tài khoản để sử dụng bất kỳ dịch vụ nào, ngoại trừ việc nạp tiền điện thoại (tức là nạp tiền Top up). Tất cả các thông tin, bao gồm người dùng đã đăng ký và các giao dịch nạp tiền hàng ngày, sẽ được quản trị viên xem.
 
-2. Thiết Kế Hệ Thống:
+	2. Thiết Kế Hệ Thống:
 
-- Trang chủ cần hiển thị tên của tổ chức và tất cả các liên kết bắt buộc cần thiết.
+	- Trang chủ cần hiển thị tên của tổ chức và tất cả các liên kết bắt buộc cần thiết.
 
-- Các liên kết điều hướng như:
+	- Các liên kết điều hướng như:
 
-- Nạp tiền trực tuyến
+	- Nạp tiền trực tuyến
 
-- Tài khoản của tôi
+	- Tài khoản của tôi
 
-- Thanh toán hóa đơn trả sau
+	- Thanh toán hóa đơn trả sau
 
-- Phản hồi
+	- Phản hồi
 
-- Sơ đồ trang web
+	- Sơ đồ trang web
 
-- Về chúng tôi
+	- Về chúng tôi
 
-- Liên hệ
+	- Liên hệ
 
-- Chăm sóc khách hàng
+	- Chăm sóc khách hàng
 
-3. Khi người dùng nhấp vào tab Nạp Tiền Trực Tuyến
+	3. Khi người dùng nhấp vào tab Nạp Tiền Trực Tuyến
 
-- Trước tiên, hệ thống phải yêu cầu nhập số điện thoại di động (phải kiểm tra hợp lệ 10 chữ số), sau đó nhấn nút "Tiếp Tục".
+	- Trước tiên, hệ thống phải yêu cầu nhập số điện thoại di động (phải kiểm tra hợp lệ 10 chữ số), sau đó nhấn nút "Tiếp Tục".
 
-- Sau đó, hệ thống sẽ hiển thị các liên kết sau:
+	- Sau đó, hệ thống sẽ hiển thị các liên kết sau:
 
-	* Nạp tiền (Top Up):
+		* Nạp tiền (Top Up):
 
-		+ Hệ thống sẽ liệt kê tất cả các gói nạp tiền (thời gian gọi, giá trị tiền) theo dạng bảng, và người dùng có thể chọn gói phù hợp.
+			+ Hệ thống sẽ liệt kê tất cả các gói nạp tiền (thời gian gọi, giá trị tiền) theo dạng bảng, và người dùng có thể chọn gói phù hợp.
 
-		+ Khi người dùng đã chọn gói mong muốn, họ cần nhấn nút “GỬI ĐI”.
+			+ Khi người dùng đã chọn gói mong muốn, họ cần nhấn nút “GỬI ĐI”.
 
-		+ Sau đó hệ thống sẽ yêu cầu tiến hành thanh toán.
+			+ Sau đó hệ thống sẽ yêu cầu tiến hành thanh toán.
 
-		+ Người dùng phải hoàn tất thông tin thanh toán.
+			+ Người dùng phải hoàn tất thông tin thanh toán.
 
-		+ Khi thanh toán hoàn tất, một biên nhận giao dịch sẽ hiển thị trên màn hình, người dùng có thể in ra hoặc hủy tùy theo mong muốn.
+			+ Khi thanh toán hoàn tất, một biên nhận giao dịch sẽ hiển thị trên màn hình, người dùng có thể in ra hoặc hủy tùy theo mong muốn.
 
-	* Nạp Tiền Đặc Biệt (Special Recharge):
+		* Nạp Tiền Đặc Biệt (Special Recharge):
 
-		+ Hệ thống sẽ liệt kê tất cả các gói nạp tiền đặc biệt có sẵn theo dạng bảng, và người dùng có thể chọn gói phù hợp.
+			+ Hệ thống sẽ liệt kê tất cả các gói nạp tiền đặc biệt có sẵn theo dạng bảng, và người dùng có thể chọn gói phù hợp.
 
-		+ Khi người dùng đã chọn gói mong muốn, họ cần nhấn nút “GỬI ĐI”.
+			+ Khi người dùng đã chọn gói mong muốn, họ cần nhấn nút “GỬI ĐI”.
 
-		+ Sau đó, hệ thống sẽ yêu cầu tiếp tục với bước thanh toán.
+			+ Sau đó, hệ thống sẽ yêu cầu tiếp tục với bước thanh toán.
 
-		+ Người dùng phải hoàn tất thông tin thanh toán.
+			+ Người dùng phải hoàn tất thông tin thanh toán.
 
-		+ Khi thanh toán hoàn tất, một biên nhận giao dịch sẽ hiển thị trên màn hình. Người dùng có thể in biên nhận này ra hoặc hủy tùy theo mong muốn.
+			+ Khi thanh toán hoàn tất, một biên nhận giao dịch sẽ hiển thị trên màn hình. Người dùng có thể in biên nhận này ra hoặc hủy tùy theo mong muốn.
 
-- Tài Khoản Của Tôi (My Account):
+	- Tài Khoản Của Tôi (My Account):
 
-	* Hệ thống phải cho phép người dùng tạo tài khoản, trong đó tên đăng nhập và số điện thoại di động là thông tin bắt buộc.
+		* Hệ thống phải cho phép người dùng tạo tài khoản, trong đó tên đăng nhập và số điện thoại di động là thông tin bắt buộc.
 
-	* Người dùng có thể kích hoạt các dịch vụ sau:
+		* Người dùng có thể kích hoạt các dịch vụ sau:
 
-		+ Không làm phiền (Do Not Disturb)
+			+ Không làm phiền (Do Not Disturb)
 
-		+ Nhạc chờ (Caller Tunes)
+			+ Nhạc chờ (Caller Tunes)
 
-		+ Nạp tiền trực tuyến (Online Recharge) – giống như phần đã mô tả ở trên
+			+ Nạp tiền trực tuyến (Online Recharge) – giống như phần đã mô tả ở trên
 
-		+ Người dùng cũng có thể chỉnh sửa thông tin cá nhân của mình.
+			+ Người dùng cũng có thể chỉnh sửa thông tin cá nhân của mình.
 
-- Thanh Toán Hóa Đơn Trả Sau (Post Bill Payment):
+	- Thanh Toán Hóa Đơn Trả Sau (Post Bill Payment):
 
-	* Tại đây, người dùng có thể nhập số điện thoại trả sau và tiến hành thanh toán hóa đơn trực tuyến.
+		* Tại đây, người dùng có thể nhập số điện thoại trả sau và tiến hành thanh toán hóa đơn trực tuyến.
 
-- Phản Hồi (Feedback):
+	- Phản Hồi (Feedback):
 
-	* Chức năng này dùng để thu thập phản hồi từ người dùng về dịch vụ hoặc trang web.
+		* Chức năng này dùng để thu thập phản hồi từ người dùng về dịch vụ hoặc trang web.
 
-- Sơ Đồ Trang Web (Site Map):
+	- Sơ Đồ Trang Web (Site Map):
 
-	* Hiển thị sơ đồ tổng quan về cấu trúc trang web để người dùng dễ dàng định hướng và tìm kiếm chức năng.
+		* Hiển thị sơ đồ tổng quan về cấu trúc trang web để người dùng dễ dàng định hướng và tìm kiếm chức năng.
 
-- Về Chúng Tôi (About Us):
+	- Về Chúng Tôi (About Us):
 
-	* Hiển thị thông điệp "Về chúng tôi", giới thiệu về công ty hoặc tổ chức đứng sau trang web.
+		* Hiển thị thông điệp "Về chúng tôi", giới thiệu về công ty hoặc tổ chức đứng sau trang web.
 
-- Liên Hệ (Contact Us):
+	- Liên Hệ (Contact Us):
 
-	* Hiển thị thông tin liên hệ đầy đủ của trung tâm dịch vụ di động, bao gồm địa chỉ, số điện thoại, email, giờ làm việc, v.v.
+		* Hiển thị thông tin liên hệ đầy đủ của trung tâm dịch vụ di động, bao gồm địa chỉ, số điện thoại, email, giờ làm việc, v.v.
 
-- Chăm Sóc Khách Hàng (Customer Care):
+	- Chăm Sóc Khách Hàng (Customer Care):
 
-	* Phải hiển thị số điện thoại chăm sóc khách hàng để người dùng có thể liên hệ khi cần hỗ trợ.
+		* Phải hiển thị số điện thoại chăm sóc khách hàng để người dùng có thể liên hệ khi cần hỗ trợ.
 
-Lưu ý: Yêu cầu kiểm tra hợp lệ (Constraint Validation):
+	Lưu ý: Yêu cầu kiểm tra hợp lệ (Constraint Validation):
