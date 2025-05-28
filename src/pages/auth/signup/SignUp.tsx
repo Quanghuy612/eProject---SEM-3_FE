@@ -7,6 +7,7 @@ import useApiStore from "../../../stores/useApiStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import type ApiResponse from "../../../types/ApiResponse";
+import { useEffect } from "react";
 
 const signupSchema = Yup.object({
     username: Yup.string().required("Username is required"),
@@ -31,8 +32,12 @@ type SignupInputs = {
 };
 
 export default function SignUp() {
-    const { request, loading, error } = useApiStore();
+    const { request, loading, error, reset } = useApiStore();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        reset();
+    }, []);
 
     const {
         register,

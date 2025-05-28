@@ -8,6 +8,7 @@ import type ApiResponse from "../../../types/ApiResponse";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const loginSchema = Yup.object({
     username: Yup.string().required("Username is required"),
@@ -25,11 +26,15 @@ interface TokenResponse {
 }
 
 export default function Login() {
-    const { request, loading, error } = useApiStore();
+    const { request, loading, error, reset } = useApiStore();
     const { setToken, setRefreshToken } = useAuthStore();
     const navigate = useNavigate();
     const params = new URLSearchParams(location.search);
     const returnURL = params.get("returnURL") || "/";
+
+    useEffect(() => {
+        reset();
+    }, []);
 
     const {
         register,
