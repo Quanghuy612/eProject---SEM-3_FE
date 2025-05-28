@@ -5,6 +5,7 @@ interface DecodedToken {
     Username: string;
     FullName: string;
     UserId: string;
+    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
 }
 
 interface AuthState {
@@ -13,6 +14,7 @@ interface AuthState {
     Username: string | null;
     FullName: string | null;
     UserId: string | null;
+    Role: string | null;
     setToken: (token: string | null) => void;
     setRefreshToken: (refreshToken: string | null) => void;
     logout: () => void;
@@ -24,6 +26,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     Username: null,
     FullName: null,
     UserId: null,
+    Role: null,
 
     setToken: (token) =>
         set(() => {
@@ -37,6 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                         Username: decoded.Username,
                         FullName: decoded.FullName,
                         UserId: decoded.UserId,
+                        Role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
                     };
                 } catch {
                     return {
@@ -44,6 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                         Username: null,
                         FullName: null,
                         UserId: null,
+                        Role: null,
                     };
                 }
             } else {
@@ -53,6 +58,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                     Username: null,
                     FullName: null,
                     UserId: null,
+                    Role: null,
                 };
             }
         }),
