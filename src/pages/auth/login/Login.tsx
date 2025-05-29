@@ -86,40 +86,54 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="max-w-md mx-auto mt-20 p-6 bg-white rounded shadow"
+            className="max-w-md mx-auto h-full flex flex-col justify-center p-4 md:p-0"
         >
-            <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <label htmlFor="username" className="block mb-1 font-medium">
-                        Username
-                    </label>
-                    <input id="username" type="username" {...register("username")} className="w-full border px-3 py-2 rounded" autoComplete="off" />
-                    {errors.username && <p className="text-red-600 text-sm mt-1">{errors.username.message}</p>}
-                </div>
-
-                <div>
-                    <label htmlFor="password" className="block mb-1 font-medium">
-                        Password
-                    </label>
-                    <input id="password" type="password" {...register("password")} className="w-full border px-3 py-2 rounded" autoComplete="off" />
-                    {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>}
-                </div>
-                {error && (
+            <div className="p-6 bg-white rounded shadow">
+                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
-                        <b className="text-red-500">{error}</b>
+                        <label htmlFor="username" className="block mb-1 font-medium">
+                            Username
+                        </label>
+                        <input
+                            id="username"
+                            type="username"
+                            {...register("username")}
+                            className="w-full border px-3 py-2 rounded"
+                            autoComplete="off"
+                        />
+                        {errors.username && <p className="text-red-600 text-sm mt-1">{errors.username.message}</p>}
                     </div>
-                )}
-                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" disabled={loading}>
-                    {loading ? "Logging in..." : "Login"}
-                </button>
-            </form>
-            <p className="mt-4 text-center text-gray-600">
-                Don't have an account?{" "}
-                <Link to="/signup" className="text-blue-600 hover:underline">
-                    Sign Up
-                </Link>
-            </p>
+
+                    <div>
+                        <label htmlFor="password" className="block mb-1 font-medium">
+                            Password
+                        </label>
+                        <input
+                            id="password"
+                            type="password"
+                            {...register("password")}
+                            className="w-full border px-3 py-2 rounded"
+                            autoComplete="off"
+                        />
+                        {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>}
+                    </div>
+                    {error && (
+                        <div>
+                            <b className="text-red-500">{error}</b>
+                        </div>
+                    )}
+                    <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" disabled={loading}>
+                        {loading ? "Logging in..." : "Login"}
+                    </button>
+                </form>
+                <p className="mt-4 text-center text-gray-600">
+                    Don't have an account?{" "}
+                    <Link to="/signup" className="text-blue-600 hover:underline">
+                        Sign Up
+                    </Link>
+                </p>
+            </div>
         </motion.div>
     );
 }
