@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
@@ -6,6 +7,7 @@ interface DecodedToken {
     FullName: string;
     UserId: string;
     "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+    PhoneNumber: string;
 }
 
 interface AuthState {
@@ -15,64 +17,81 @@ interface AuthState {
     FullName: string | null;
     UserId: string | null;
     Role: string | null;
+    PhoneNumber: string | null;
     setToken: (token: string | null) => void;
     setRefreshToken: (refreshToken: string | null) => void;
     logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-    token: localStorage.getItem("token"),
-    refreshToken: localStorage.getItem("refreshToken"),
-    Username: null,
-    FullName: null,
-    UserId: null,
-    Role: null,
+export const useAuthStore = create<AuthState>()(
+    persist(
+        (set) => ({
+            token: null,
+            refreshToken: null,
+            Username: null,
+            FullName: null,
+            UserId: null,
+            Role: null,
+            PhoneNumber: null,
 
-    setToken: (token) =>
-        set(() => {
-            if (token) {
-                localStorage.setItem("token", token);
-
-                try {
-                    const decoded = jwtDecode<DecodedToken>(token);
-                    return {
-                        token,
-                        Username: decoded.Username,
-                        FullName: decoded.FullName,
-                        UserId: decoded.UserId,
-                        Role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
-                    };
-                } catch {
-                    return {
-                        token,
+            setToken: (token) => {
+                if (token) {
+                    try {
+                        localStorage.setItem("token", token);
+                        const decoded = jwtDecode<DecodedToken>(token);
+                        set({
+                            token,
+                            Username: decoded.Username,
+                            FullName: decoded.FullName,
+                            UserId: decoded.UserId,
+                            Role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+                            PhoneNumber: decoded.PhoneNumber,
+                        });
+                    } catch {
+                        set({
+                            token: null,
+                            Username: null,
+                            FullName: null,
+                            UserId: null,
+                            Role: null,
+                            PhoneNumber: null,
+                        });
+                    }
+                } else {
+                    set({
+                        token: null,
                         Username: null,
                         FullName: null,
                         UserId: null,
                         Role: null,
-                    };
+                        PhoneNumber: null,
+                    });
                 }
-            } else {
-                localStorage.removeItem("token");
-                return {
-                    token: null,
-                    Username: null,
-                    FullName: null,
-                    UserId: null,
-                    Role: null,
-                };
-            }
-        }),
+            },
 
-    setRefreshToken: (refreshToken) =>
-        set(() => {
-            if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
-            else localStorage.removeItem("refreshToken");
-            return { refreshToken };
-        }),
+            setRefreshToken: (refreshToken) =>
+                set(() => {
+                    if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+                    else localStorage.removeItem("refreshToken");
+                    return { refreshToken };
+                }),
 
-    logout: () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("refreshToken");
-        set({ token: null, refreshToken: null, Username: null, FullName: null, UserId: null });
-    },
-}));
+            logout: () => {
+                localStorage.clear();
+                set({ token: null, refreshToken: null, Username: null, FullName: null, UserId: null, Role: null, PhoneNumber: null });
+            },
+        }),
+        {
+            name: "auth-storage",
+            partialize: (state) => ({
+                token: state.token,
+                refreshToken: state.refreshToken,
+                Username: state.Username,
+                FullName: state.FullName,
+                UserId: state.UserId,
+                Role: state.Role,
+                PhoneNumber: state.PhoneNumber,
+            }),
+        }
+    )
+);

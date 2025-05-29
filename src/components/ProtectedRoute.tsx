@@ -1,20 +1,22 @@
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 
-interface ProtectedRouteProps {
-    children: React.ReactElement;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute = () => {
     const token = useAuthStore((state) => state.token);
+    const role = useAuthStore((state) => state.Role);
     const location = useLocation();
 
     if (!token) {
-        return <Navigate to={`/login?returnURL=${encodeURIComponent(location.pathname + location.search)}`} replace />;
+        return <Navigate to="/login" replace />;
     }
 
-    return children;
+    if (role !== "User") {
+        return <Navigate to="*" replace />;
+    }
+
+    localStorage.setItem("returnURL", location.pathname + location.search);
+
+    return <Outlet />;
 };
 
 export default ProtectedRoute;

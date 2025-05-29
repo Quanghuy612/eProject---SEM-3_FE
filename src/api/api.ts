@@ -76,20 +76,23 @@ API.interceptors.response.use(
                         refreshToken,
                     })
                     .then(({ data }) => {
-                        localStorage.setItem("token", data.accessToken);
-                        localStorage.setItem("refreshToken", data.refreshToken);
+                        const tokens = data.data;
 
-                        API.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
+                        localStorage.setItem("token", tokens.accessToken);
+                        localStorage.setItem("refreshToken", tokens.refreshToken);
+
+                        API.defaults.headers.common["Authorization"] = `Bearer ${tokens.accessToken}`;
 
                         if (!originalRequest.headers) {
                             originalRequest.headers = {} as AxiosRequestHeaders;
                         }
-                        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+                        originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
 
                         processQueue(null);
                         resolve(API(originalRequest));
                     })
                     .catch((err: unknown) => {
+                        localStorage.clear();
                         processQueue(err);
                         reject(err);
                     })

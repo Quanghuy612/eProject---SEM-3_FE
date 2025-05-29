@@ -63,6 +63,8 @@ export default function SignUp() {
             }
         } catch (error) {
             console.error("Login failed", error);
+        } finally {
+            reset();
         }
     };
 
