@@ -9,6 +9,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const loginSchema = Yup.object({
     username: Yup.string().required("Username is required"),
@@ -20,6 +21,10 @@ type LoginInputs = {
     password: string;
 };
 
+interface RoleToken {
+    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+}
+
 interface TokenResponse {
     accessToken: string;
     refreshToken: string;
@@ -29,8 +34,6 @@ export default function Login() {
     const { request, loading, error, reset } = useApiStore();
     const { setToken, setRefreshToken } = useAuthStore();
     const navigate = useNavigate();
-    const params = new URLSearchParams(location.search);
-    const returnURL = params.get("returnURL") || "/";
 
     useEffect(() => {
         reset();
@@ -56,10 +59,24 @@ export default function Login() {
                 setToken(response.data.accessToken);
                 setRefreshToken(response.data.refreshToken);
                 toast.success(response.message);
-                navigate(returnURL, { replace: true });
+                const decoded = jwtDecode<RoleToken>(response.data.accessToken);
+                const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+                const returnURL = localStorage.getItem("returnURL") || "/";
+
+                if (role === "Admin") {
+                    navigate("/admin", { replace: true });
+                } else {
+                    navigate(returnURL, { replace: true });
+                }
+
+                localStorage.removeItem("returnURL");
             }
         } catch (error) {
+            toast.success("Login failed");
             console.error("Login failed", error);
+        } finally {
+            reset();
         }
     };
 
