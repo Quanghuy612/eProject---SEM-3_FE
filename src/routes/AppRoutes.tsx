@@ -20,6 +20,7 @@ import SpecialServices from "../pages/user/specialServices/SpecialServices";
 import UserBills from "../pages/user/bills/Bills";
 import UserTransactions from "../pages/user/transactions/Transactions";
 import Account from "../pages/user/account/Account";
+import Feedback from "../pages/feedback/Feedback";
 //================================================
 import AccountManagement from "../pages/admin/accountManagement/AccountManagement";
 import TransactionManagement from "../pages/admin/transactionManagement/TransactionManagement";
@@ -29,15 +30,16 @@ const AppRoutes = () => {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path="user" element={<ProtectedRoute />}>
-                    <Route path="online-recharges" element={<OnlineRecharges />} />
                     <Route path="special-recharges" element={<SpecialRecharges />} />
                     <Route path="special-services" element={<SpecialServices />} />
                     <Route path="bills" element={<UserBills />} />
                     <Route path="transactions" element={<UserTransactions />} />
                     <Route path="account" element={<Account />} />
+                    <Route path="feedback" element={<Feedback />} />
                 </Route>
                 <Route path="/" element={<OtherRoute />}>
                     <Route index element={<Home />} />
+                    <Route path="online-recharges" element={<OnlineRecharges />} />
                     <Route path="about-us" element={<AboutUs />} />
                     <Route path="contact-us" element={<ContactUs />} />
                 </Route>
