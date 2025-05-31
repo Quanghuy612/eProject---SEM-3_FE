@@ -42,7 +42,7 @@ function Header() {
                     <Link to="/">Home</Link>
                 </div>
                 <div className="text-lg font-bold text-blue-600">
-                    <Link to="/user/online-recharges">Online Recharge</Link>
+                    <Link to="/online-recharges">Online Recharge</Link>
                 </div>
                 <div className="text-lg font-bold text-blue-600">
                     <Link to="/about-us">About Us</Link>
