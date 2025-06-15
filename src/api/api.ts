@@ -7,9 +7,10 @@ type QueueItem = {
 };
 
 const API: AxiosInstance = axios.create({
-    baseURL: `${import.meta.env.VITE_SERVER_URL}/api/v1/`,
+    // baseURL: `${import.meta.env.VITE_SERVER_URL}/api/v1/`,
+    baseURL: `http://localhost:5000/api/v1/`,
     headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", 
     },
 });
 
