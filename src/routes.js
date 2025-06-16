@@ -52,6 +52,10 @@ import Account from "pages/LandingPages/Account";
 import OnlineRecharges from "pages/RechargeServices/OnlineRecharges";
 import SpecialRechares from "pages/RechargeServices/SpecialRecharges";
 import SpecialServices from "pages/RechargeServices/SpecialServices";
+import FeedBacks from "pages/FeedBacks";
+import Bills from "pages/Bills";
+import Transactions from "pages/Transactions";
+import LogOut from "pages/LandingPages/LogOut";
 
 import { isAuthenticated } from "utils/auth";
 
@@ -77,7 +81,7 @@ const getRoutes = () => {
       route: "/contact-us",
       component: <ContactUs />,
     },
-    {
+    loggedIn && {
       name: "other services",
       icon: <Icon>dashboard</Icon>,
       columns: 1,
@@ -105,8 +109,8 @@ const getRoutes = () => {
           collapse: [
             {
               name: "feedbacks",
-              route: "/services/special-recharge",
-              component: <SpecialRechares />,
+              route: "/feedback",
+              component: <FeedBacks />,
               access: ["User"],
             },
           ],
@@ -116,24 +120,19 @@ const getRoutes = () => {
           collapse: [
             {
               name: "bills",
-              route: "/services/special-recharge",
-              component: <SpecialRechares />,
+              route: "/bill",
+              component: <Bills />,
               access: ["User"],
             },
             {
               name: "transactions",
-              route: "/services/special-recharge",
-              component: <SpecialRechares />,
+              route: "/transaction",
+              component: <Transactions />,
               access: ["User"],
             },
           ],
         },
-      ].map((group) => ({
-        ...group,
-        collapse: group.collapse.filter(
-          (item) => !item.access || (loggedIn && item.access.includes("User"))
-        ),
-      })),
+      ],
     },
     !loggedIn && {
       name: "sign in",
@@ -161,6 +160,12 @@ const getRoutes = () => {
               name: "manage account",
               route: "/user/manage-account",
               component: <Account />,
+              access: ["User"],
+            },
+            {
+              name: "logout",
+              route: "/logout",
+              component: <LogOut />,
               access: ["User"],
             },
           ],
