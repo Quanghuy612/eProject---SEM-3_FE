@@ -28,6 +28,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 // Material Kit 2 React themes
 import theme from "assets/theme";
 import Presentation from "pages/Presentation";
+// 🔹 NEW PAGES
+import AboutUs from "pages/AboutUs";
+import ContactUs from "pages/ContactUs";
 // Material Kit 2 React routes
 import getRoutes from "routes";
 
@@ -63,7 +66,12 @@ export default function App() {
         <CssBaseline />
         <Routes>
           {renderRoutes(routes)}
+          {/* Home */}
           <Route path="/" element={<Presentation />} />
+          {/* 🔹 Added static pages */}
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </ThemeProvider>
