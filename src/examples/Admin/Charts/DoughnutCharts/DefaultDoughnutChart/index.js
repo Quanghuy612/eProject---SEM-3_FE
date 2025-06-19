@@ -27,11 +27,11 @@ import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
 
 // DefaultDoughnutChart configurations
-import configs from "examples/Charts/DoughnutCharts/DefaultDoughnutChart/configs";
+import configs from "examples/Admin/Charts/DoughnutCharts/DefaultDoughnutChart/configs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

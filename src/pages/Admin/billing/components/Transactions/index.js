@@ -19,12 +19,12 @@ import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
 // import MDButton from "components/MDButton";
 
 // Billing page components
-import Transaction from "layouts/billing/components/Transaction";
+import Transaction from "pages/Admin/billing/components/Transaction";
 
 function Transactions() {
   return (

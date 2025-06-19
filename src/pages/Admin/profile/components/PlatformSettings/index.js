@@ -20,8 +20,8 @@ import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
 
 function PlatformSettings() {
   const [followsMe, setFollowsMe] = useState(true);

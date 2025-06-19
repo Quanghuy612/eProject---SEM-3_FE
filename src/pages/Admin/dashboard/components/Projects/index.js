@@ -22,14 +22,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
 
 // Material Dashboard 2 React examples
-import DataTable from "examples/Tables/DataTable";
+import DataTable from "examples/Admin/Tables/DataTable";
 
 // Data
-import data from "layouts/dashboard/components/Projects/data";
+import data from "./data";
 
 function Projects() {
   const { columns, rows } = data();

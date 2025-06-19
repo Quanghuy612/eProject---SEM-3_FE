@@ -16,15 +16,15 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
-import MDBadge from "components/MDBadge";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
+import MDAvatar from "components/Admin/MDAvatar";
+import MDBadge from "components/Admin/MDBadge";
 
 // Images
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+import team2 from "assets/admin/images/team-2.jpg";
+import team3 from "assets/admin/images/team-3.jpg";
+import team4 from "assets/admin/images/team-4.jpg";
 
 export default function data() {
   const Author = ({ image, name, email }) => (

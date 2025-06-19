@@ -19,23 +19,23 @@ import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/Admin/MDBox";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import DashboardLayout from "examples/Admin/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Admin/Navbars/DashboardNavbar";
+import Footer from "examples/Admin/Footer";
+import ReportsBarChart from "examples/Admin/Charts/BarCharts/ReportsBarChart";
+import ReportsLineChart from "examples/Admin/Charts/LineCharts/ReportsLineChart";
+import ComplexStatisticsCard from "examples/Admin/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/rtl/data/reportsBarChartData";
-import reportsLineChartData from "layouts/rtl/data/reportsLineChartData";
+import reportsBarChartData from "pages/Admin/rtl/data/reportsBarChartData";
+import reportsLineChartData from "pages/Admin/rtl/data/reportsLineChartData";
 
 // RTL components
-import Projects from "layouts/rtl/components/Projects";
-import OrdersOverview from "layouts/rtl/components/OrdersOverview";
+import Projects from "pages/Admin/rtl/components/Projects";
+import OrdersOverview from "pages/Admin/rtl/components/OrdersOverview";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setDirection } from "context";

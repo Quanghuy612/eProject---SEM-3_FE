@@ -20,16 +20,16 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAlert from "components/MDAlert";
-import MDButton from "components/MDButton";
-import MDSnackbar from "components/MDSnackbar";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
+import MDAlert from "components/Admin/MDAlert";
+import MDButton from "components/Admin/MDButton";
+import MDSnackbar from "components/Admin/MDSnackbar";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
+import DashboardLayout from "examples/Admin/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Admin/Navbars/DashboardNavbar";
+import Footer from "examples/Admin/Footer";
 
 function Notifications() {
   const [successSB, setSuccessSB] = useState(false);

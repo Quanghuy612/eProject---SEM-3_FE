@@ -30,12 +30,12 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
+import MDButton from "components/Admin/MDButton";
 
 // Custom styles for the Configurator
-import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
+import ConfiguratorRoot from "examples/Admin/Configurator/ConfiguratorRoot";
 
 // Material Dashboard 2 React context
 import {

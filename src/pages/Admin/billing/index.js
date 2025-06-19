@@ -17,20 +17,20 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/Admin/MDBox";
 
 // Material Dashboard 2 React examples
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import MasterCard from "examples/Cards/MasterCard";
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import DashboardLayout from "examples/Admin/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Admin/Navbars/DashboardNavbar";
+import Footer from "examples/Admin/Footer";
+import MasterCard from "examples/Admin/Cards/MasterCard";
+import DefaultInfoCard from "examples/Admin/Cards/InfoCards/DefaultInfoCard";
 
 // Billing page components
-import PaymentMethod from "layouts/billing/components/PaymentMethod";
-import Invoices from "layouts/billing/components/Invoices";
-import BillingInformation from "layouts/billing/components/BillingInformation";
-import Transactions from "layouts/billing/components/Transactions";
+import PaymentMethod from "pages/Admin/billing/components/PaymentMethod";
+import Invoices from "pages/Admin/billing/components/Invoices";
+import BillingInformation from "pages/Admin/billing/components/BillingInformation";
+import Transactions from "pages/Admin/billing/components/Transactions";
 
 function Billing() {
   return (

@@ -23,33 +23,33 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
-import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
+import DashboardLayout from "examples/Admin/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Admin/Navbars/DashboardNavbar";
+import Footer from "examples/Admin/Footer";
+import ProfileInfoCard from "examples/Admin/Cards/InfoCards/ProfileInfoCard";
+import ProfilesList from "examples/Admin/Lists/ProfilesList";
+import DefaultProjectCard from "examples/Admin/Cards/ProjectCards/DefaultProjectCard";
 
 // Overview page components
-import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
+import Header from "pages/Admin/profile/components/Header";
+import PlatformSettings from "pages/Admin/profile/components/PlatformSettings";
 
 // Data
-import profilesListData from "layouts/profile/data/profilesListData";
+import profilesListData from "pages/Admin/profile/data/profilesListData";
 
 // Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import homeDecor4 from "assets/images/home-decor-4.jpeg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+import homeDecor1 from "assets/admin/images/home-decor-1.jpg";
+import homeDecor2 from "assets/admin/images/home-decor-2.jpg";
+import homeDecor3 from "assets/admin/images/home-decor-3.jpg";
+import homeDecor4 from "assets/admin/images/home-decor-4.jpeg";
+import team1 from "assets/admin/images/team-1.jpg";
+import team2 from "assets/admin/images/team-2.jpg";
+import team3 from "assets/admin/images/team-3.jpg";
+import team4 from "assets/admin/images/team-4.jpg";
 
 function Overview() {
   return (
