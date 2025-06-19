@@ -181,7 +181,7 @@ export default function App() {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} toastClassName="custom-toast" />
       {ROLE === "Admin" ? (
         direction === "rtl" ? (
           <CacheProvider value={rtlCache}>

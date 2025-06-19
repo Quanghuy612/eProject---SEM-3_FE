@@ -56,7 +56,7 @@ function ContactUs() {
         minHeight="100vh"
         width="100%"
         sx={{
-          backgroundImage: ({ palette: { black } }) =>
+          backgroundImage: () =>
             `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${contactBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -393,7 +393,7 @@ function ContactUs() {
               />
 
               <MKTypography variant="h3" color="white" mb={3} textAlign="center" fontWeight="bold">
-                We're Always Ready to Help You
+                We are Always Ready to Help You
               </MKTypography>
 
               <MKBox mb={4}>
@@ -413,8 +413,8 @@ function ContactUs() {
               </MKBox>
 
               <MKTypography variant="body1" color="white" opacity={0.8} textAlign="center" mb={4}>
-                "Customer satisfaction is at the heart of everything we do. Contact us now to
-                receive the most dedicated consultation."
+                Customer satisfaction is at the heart of everything we do. Contact us now to receive
+                the most dedicated consultation.
               </MKTypography>
 
               <MKBox textAlign="center" mt={3}>

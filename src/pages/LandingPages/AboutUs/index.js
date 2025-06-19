@@ -13,7 +13,6 @@ import Divider from "@mui/material/Divider";
 // Material Kit 2 React components
 import MKBox from "components/User/MKBox";
 import MKTypography from "components/User/MKTypography";
-import MKButton from "components/User/MKButton";
 
 // Material Kit 2 React examples
 import DefaultNavbar from "examples/User/Navbars/DefaultNavbar";
@@ -91,9 +90,6 @@ function AboutUs() {
                 With direct connections to major carriers like Viettel, Vinaphone, and Mobifone, we
                 are committed to delivering the best service with a 99.9% success rate.
               </MKTypography>
-              <MKButton variant="gradient" color="info">
-                Learn More
-              </MKButton>
             </Grid>
             <Grid item xs={12} md={6}>
               <MKBox
