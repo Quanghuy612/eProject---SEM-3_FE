@@ -2,6 +2,8 @@
 import Dashboard from "pages/Admin/dashboard";
 import Billing from "pages/Admin/billing";
 import Logout from "pages/LandingPages/LogOut";
+import SignIn from "pages/Admin/authentication/sign-in";
+import AdminPrivateRoute from "examples/Admin/ProtectedRoute/Admin.ProtectedRoute";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -13,7 +15,11 @@ const routes = [
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/admin",
-    component: <Dashboard />,
+    component: (
+      <AdminPrivateRoute>
+        <Dashboard />
+      </AdminPrivateRoute>
+    ),
   },
   {
     type: "collapse",
@@ -21,7 +27,19 @@ const routes = [
     key: "billing",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
-    component: <Billing />,
+    component: (
+      <AdminPrivateRoute>
+        <Billing />
+      </AdminPrivateRoute>
+    ),
+  },
+  {
+    type: "collapse",
+    name: "Sign In",
+    key: "sign-in",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/authentication/sign-in",
+    component: <SignIn />,
   },
   {
     type: "collapse",
@@ -29,7 +47,11 @@ const routes = [
     key: "logout",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/logout",
-    component: <Logout />,
+    component: (
+      <AdminPrivateRoute>
+        <Logout />
+      </AdminPrivateRoute>
+    ),
   },
 ];
 

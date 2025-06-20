@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Kit 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "pages/Error";
@@ -62,7 +47,9 @@ import brandDark from "assets/admin/images/logo-ct-dark.png";
 import getRoutes from "routes";
 import routesAdmin from "admin.routes";
 
-export default function App() {
+function AdminApp() {
+  const { pathname } = useLocation();
+
   const getRoutesAdmin = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {
@@ -74,31 +61,6 @@ export default function App() {
       }
 
       return null;
-    });
-  const { pathname } = useLocation();
-  const routes = getRoutes();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const ROLE = user?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-
-  // Setting page scroll to 0 when changing the route
-  useEffect(() => {
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-  }, [pathname]);
-
-  const renderRoutes = (allRoutes) =>
-    allRoutes.flatMap((route) => {
-      if (route.collapse) {
-        return renderRoutes(route.collapse);
-      }
-
-      if (route.route) {
-        return (
-          <Route key={route.key || route.route} path={route.route} element={route.component} />
-        );
-      }
-
-      return [];
     });
 
   const [controller, dispatch] = useMaterialUIController();
@@ -121,7 +83,6 @@ export default function App() {
       key: "rtl",
       stylisPlugins: [rtlPlugin],
     });
-
     setRtlCache(cacheRtl);
   }, []);
 
@@ -179,71 +140,95 @@ export default function App() {
     </MDBox>
   );
 
+  const content = (
+    <>
+      <ToastContainer position="top-right" autoClose={3000} toastClassName="custom-toast" />
+      {layout === "dashboard" && (
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+            brandName="Material Dashboard 2"
+            routes={routesAdmin}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+          <Configurator />
+          {configsButton}
+        </>
+      )}
+      {layout === "vr" && <Configurator />}
+      <Routes>
+        {getRoutesAdmin(routesAdmin)}
+        <Route path="*" element={<Navigate to="/admin" />} />
+      </Routes>
+    </>
+  );
+
+  if (direction === "rtl") {
+    return (
+      <CacheProvider value={rtlCache}>
+        <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+          <CssBaseline />
+          {content}
+        </ThemeProvider>
+      </CacheProvider>
+    );
+  }
+
+  return (
+    <ThemeProvider theme={darkMode ? themeDark : theme}>
+      <CssBaseline />
+      {content}
+    </ThemeProvider>
+  );
+}
+
+function UserApp() {
+  const { pathname } = useLocation();
+  const routes = getRoutes();
+
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    document.scrollingElement.scrollTop = 0;
+  }, [pathname]);
+
+  const renderRoutes = (allRoutes) =>
+    allRoutes.flatMap((route) => {
+      if (route.collapse) {
+        return renderRoutes(route.collapse);
+      }
+
+      if (route.route) {
+        return (
+          <Route key={route.key || route.route} path={route.route} element={route.component} />
+        );
+      }
+
+      return [];
+    });
+
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} toastClassName="custom-toast" />
-      {ROLE === "Admin" ? (
-        direction === "rtl" ? (
-          <CacheProvider value={rtlCache}>
-            <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-              <CssBaseline />
-              {layout === "dashboard" && (
-                <>
-                  <Sidenav
-                    color={sidenavColor}
-                    brand={
-                      (transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite
-                    }
-                    brandName="Material Dashboard 2"
-                    routes={routesAdmin}
-                    onMouseEnter={handleOnMouseEnter}
-                    onMouseLeave={handleOnMouseLeave}
-                  />
-                  <Configurator />
-                  {configsButton}
-                </>
-              )}
-              {layout === "vr" && <Configurator />}
-              <Routes>
-                {getRoutesAdmin(routesAdmin)}
-                <Route path="*" element={<Navigate to="/admin" />} />
-              </Routes>
-            </ThemeProvider>
-          </CacheProvider>
-        ) : (
-          <ThemeProvider theme={darkMode ? themeDark : theme}>
-            <CssBaseline />
-            {layout === "dashboard" && (
-              <>
-                <Sidenav
-                  color={sidenavColor}
-                  brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                  brandName="Material Dashboard 2"
-                  routes={routesAdmin}
-                  onMouseEnter={handleOnMouseEnter}
-                  onMouseLeave={handleOnMouseLeave}
-                />
-                <Configurator />
-                {configsButton}
-              </>
-            )}
-            {layout === "vr" && <Configurator />}
-            <Routes>
-              {getRoutesAdmin(routesAdmin)}
-              <Route path="*" element={<Navigate to="/admin" />} />
-            </Routes>
-          </ThemeProvider>
-        )
-      ) : (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Routes>
-            {renderRoutes(routes)}
-            <Route path="/" element={<Presentation />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </ThemeProvider>
-      )}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes>
+          {renderRoutes(routes)}
+          <Route path="/" element={<Presentation />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ThemeProvider>
     </>
   );
+}
+
+export default function App() {
+  const ROLE = process.env.REACT_APP_MODE;
+
+  if (ROLE === "admin") {
+    return <AdminApp />;
+  }
+
+  return <UserApp />;
 }

@@ -1,41 +1,33 @@
 import { create } from "zustand";
 import API from "api/api";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
-const useAuthStore = create((set) => ({
+const useAdminStore = create((set) => ({
   loading: false,
-  error: null,
-  token: localStorage.getItem("token") || null,
 
-  login: async (username, password, navigate) => {
-    set({ loading: true, error: null });
+  login: async (data, navigate) => {
+    set({ loading: true });
 
     try {
-      const res = await API.post("/auth/login", {
-        username,
-        password,
-      });
-
+      const res = await API.post("/admin/login", data);
       const { accessToken, refreshToken } = res.data.data;
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
+
       const user = jwtDecode(accessToken);
       localStorage.setItem("user", JSON.stringify(user));
 
-      const returnURL = localStorage.getItem("returnURL") || "/";
-
+      const returnURL = localStorage.getItem("returnURL") || "/admin";
       navigate(returnURL, { replace: true });
-
       localStorage.removeItem("returnURL");
-
-      set({
-        token: accessToken,
-        loading: false,
-      });
     } catch (err) {
-      const message = err?.response?.data?.message || "Login failed. Please try again.";
-      set({ error: message, loading: false });
+      const message =
+        err?.response?.data?.message || err?.message || "Login failed. Please try again.";
+      toast.error(message);
+    } finally {
+      set({ loading: false });
     }
   },
 
@@ -48,4 +40,4 @@ const useAuthStore = create((set) => ({
   },
 }));
 
-export default useAuthStore;
+export default useAdminStore;
