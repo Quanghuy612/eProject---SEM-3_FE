@@ -38,7 +38,8 @@ API.interceptors.response.use(
     if (
       originalRequest.url.includes("/auth/login") ||
       originalRequest.url.includes("/auth/sign-up") ||
-      originalRequest.url.includes("/auth/refresh-token") // also avoid recursion here
+      originalRequest.url.includes("/auth/refresh-token") ||
+      originalRequest.url.includes("/admin/login")
     ) {
       return Promise.reject(error);
     }

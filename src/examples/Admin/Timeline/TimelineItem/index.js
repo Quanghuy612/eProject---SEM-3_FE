@@ -20,14 +20,14 @@ import PropTypes from "prop-types";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/Admin/MDBox";
+import MDTypography from "components/Admin/MDTypography";
 
 // Timeline context
-import { useTimeline } from "examples/Timeline/context";
+import { useTimeline } from "examples/Admin/Timeline/context";
 
 // Custom styles for the TimelineItem
-import timelineItem from "examples/Timeline/TimelineItem/styles";
+import timelineItem from "examples/Admin/Timeline/TimelineItem/styles";
 
 function TimelineItem({ color, icon, title, dateTime, description, lastItem }) {
   const isDark = useTimeline();

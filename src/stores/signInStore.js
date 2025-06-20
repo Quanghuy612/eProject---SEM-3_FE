@@ -23,14 +23,9 @@ const useAuthStore = create((set) => ({
       const user = jwtDecode(accessToken);
       localStorage.setItem("user", JSON.stringify(user));
 
-      const role = user["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       const returnURL = localStorage.getItem("returnURL") || "/";
 
-      if (role === "Admin") {
-        navigate("/admin", { replace: true });
-      } else {
-        navigate(returnURL, { replace: true });
-      }
+      navigate(returnURL, { replace: true });
 
       localStorage.removeItem("returnURL");
 
