@@ -12,7 +12,7 @@ import Presentation from "pages/Presentation";
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 // @mui material components
 import Icon from "@mui/material/Icon";
@@ -23,6 +23,7 @@ import MDBox from "components/Admin/MDBox";
 // Material Dashboard 2 React example components
 import Sidenav from "examples/Admin/Sidenav";
 import Configurator from "examples/Admin/Configurator";
+import Dashboard from "pages/Admin/dashboard";
 
 // RTL plugins
 import rtlPlugin from "stylis-plugin-rtl";
@@ -45,10 +46,11 @@ import brandWhite from "assets/admin/images/logo-ct.png";
 import brandDark from "assets/admin/images/logo-ct-dark.png";
 
 import getRoutes from "routes";
-import routesAdmin from "admin.routes";
+import getAdminRoutes from "admin.routes";
 
 function AdminApp() {
   const { pathname } = useLocation();
+  const adminRoutes = getAdminRoutes();
 
   const getRoutesAdmin = (allRoutes) =>
     allRoutes.map((route) => {
@@ -149,7 +151,7 @@ function AdminApp() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="Material Dashboard 2"
-            routes={routesAdmin}
+            routes={adminRoutes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
@@ -159,8 +161,9 @@ function AdminApp() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
-        {getRoutesAdmin(routesAdmin)}
-        <Route path="*" element={<Navigate to="/admin" />} />
+        {getRoutesAdmin(adminRoutes)}
+        <Route path="/admin" element={<Dashboard />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

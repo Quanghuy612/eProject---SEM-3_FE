@@ -184,7 +184,7 @@ export default function Account() {
         left={0}
         zIndex={1}
         width="100%"
-        minHeight="100vh"
+        height="100vh"
         sx={{
           backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
             `${linearGradient(
@@ -196,21 +196,17 @@ export default function Account() {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <MKBox
-        px={1}
-        width="100%"
-        minHeight="100vh"
-        mx="auto"
-        position="relative"
-        zIndex={2}
-        display="flex"
-        flexDirection="column"
-      >
-        <MKBox mt={16} mb={6}>
-          {" "}
-          {/* Thêm margin top 8rem (8 * 8px = 64px) */}
+      <MKBox position="relative" zIndex={2} minHeight="100vh" display="flex" flexDirection="column">
+        <MKBox
+          flexGrow={1}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          py={6}
+          px={1}
+        >
           <Grid container justifyContent="center">
-            <Grid item xs={11} sm={9} md={7} lg={6} xl={5}>
+            <Grid item xs={12} sm={10} md={8} lg={6} xl={5}>
               <Card>
                 <MKBox
                   variant="gradient"
@@ -250,8 +246,9 @@ export default function Account() {
                             type="text"
                             label="Phone number"
                             fullWidth
-                            disabled
+                            name="phoneNumber"
                             value={formData.phoneNumber}
+                            onChange={handleChange}
                           />
                         </MKBox>
                       </Grid>

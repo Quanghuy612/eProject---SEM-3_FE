@@ -38,6 +38,97 @@ const useAdminStore = create((set) => ({
       error: null,
     });
   },
+
+  caculateTotal: async () => {
+    set({ loading: true });
+
+    try {
+      const res = await API.get("/admin/caculate-total");
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || "Error caculate total data";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  caculateService: async () => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.get("/admin/caculate-services");
+      return res.data;
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || err?.message || "Error caculate total services";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  getBills: async () => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.get("/admin/bills");
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || "Error getting bills";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  getTransactions: async () => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.get("/admin/transactions");
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || "Error getting transactions";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  getPackages: async () => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.get("/admin/packages");
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || "Error getting packages";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  getUsers: async () => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.get("/admin/users");
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || "Error getting users";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
 }));
 
 export default useAdminStore;
