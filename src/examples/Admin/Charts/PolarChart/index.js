@@ -28,10 +28,10 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDTypography from "components/Admin/MDTypography";
 
 // PolarChart configurations
-import configs from "examples/Charts/PolarChart/configs";
+import configs from "examples/Admin/Charts/PolarChart/configs";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 

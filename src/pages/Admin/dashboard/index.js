@@ -1,42 +1,71 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/Admin/MDBox";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import DashboardLayout from "examples/Admin/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Admin/Navbars/DashboardNavbar";
+import ComplexStatisticsCard from "examples/Admin/Cards/StatisticsCards/ComplexStatisticsCard";
+import ReportsBarChart from "examples/Admin/Charts/BarCharts/ReportsBarChart";
 
-// Data
-import reportsBarChartData from "dashboard/data/reportsBarChartData";
-import reportsLineChartData from "dashboard/data/reportsLineChartData";
+import useAdminStore from "stores/adminStore";
+import { useEffect, useState } from "react";
 
-// Dashboard components
-import Projects from "dashboard/components/Projects";
-import OrdersOverview from "dashboard/components/OrdersOverview";
+function prepareChartDatasets(data) {
+  const labels = data.map((item) => item.date);
+
+  const topUpChart = {
+    labels,
+    datasets: {
+      label: "Top Up",
+      data: data.map((item) => item.totalTopUp),
+    },
+  };
+
+  const rechargeChart = {
+    labels,
+    datasets: {
+      label: "Special Recharge",
+      data: data.map((item) => item.totalSpecialRecharge),
+    },
+  };
+
+  const serviceChart = {
+    labels,
+    datasets: {
+      label: "Special Service",
+      data: data.map((item) => item.totalSpecialService),
+    },
+  };
+
+  return { topUpChart, rechargeChart, serviceChart };
+}
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  const [total, setTotal] = useState(null);
+  const caculateTotal = useAdminStore((state) => state.caculateTotal);
+  const caculateService = useAdminStore((state) => state.caculateService);
+  const [topUpChart, setTopUpChart] = useState(null);
+  const [rechargeChart, setRechargeChart] = useState(null);
+  const [serviceChart, setServiceChart] = useState(null);
+
+  useEffect(() => {
+    const fetchDataServices = async () => {
+      const result = await caculateService();
+      const { topUpChart, rechargeChart, serviceChart } = prepareChartDatasets(result.data);
+      setTopUpChart(topUpChart);
+      setRechargeChart(rechargeChart);
+      setServiceChart(serviceChart);
+    };
+    const fetchData = async () => {
+      const result = await caculateTotal();
+      setTotal(result.data);
+    };
+    fetchData();
+    fetchDataServices();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -46,14 +75,29 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
+                color="warning"
+                icon="person_add"
+                title="Today's New Users"
+                count={total?.newUsers ?? 0}
                 percentage={{
                   color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
+                  amount: "",
+                  label: "Just updated",
+                }}
+              />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="primary"
+                icon="format_list_bulleted"
+                title="Today's Feedbacks"
+                count={total?.feedbacks ?? 0}
+                percentage={{
+                  color: "success",
+                  amount: "",
+                  label: "Just updated",
                 }}
               />
             </MDBox>
@@ -62,12 +106,12 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
+                title="Today's Transactions"
+                count={total?.transactionCount ?? 0}
                 percentage={{
                   color: "success",
-                  amount: "+3%",
-                  label: "than last month",
+                  amount: "",
+                  label: "Just updated",
                 }}
               />
             </MDBox>
@@ -78,22 +122,7 @@ function Dashboard() {
                 color="success"
                 icon="store"
                 title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
+                count={total?.totalRevenue ?? 0}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -104,58 +133,39 @@ function Dashboard() {
           </Grid>
         </Grid>
         <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
+          {topUpChart && (
+            <ReportsBarChart
+              color="success"
+              title="Top Up Usage"
+              description="TopUps used this week"
+              date="Updated just now"
+              chart={topUpChart}
+            />
+          )}
         </MDBox>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid>
-          </Grid>
+        <MDBox mt={5.5}>
+          {rechargeChart && (
+            <ReportsBarChart
+              color="warning"
+              title="Special Recharge Usage"
+              description="Special Recharges this week"
+              date="Updated just now"
+              chart={rechargeChart}
+            />
+          )}
+        </MDBox>
+        <MDBox mt={5.5}>
+          {serviceChart && (
+            <ReportsBarChart
+              color="info"
+              title="Special Service Usage"
+              description="Special Services this week"
+              date="Updated just now"
+              chart={serviceChart}
+            />
+          )}
         </MDBox>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 }
