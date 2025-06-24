@@ -6,17 +6,24 @@ const billStore = create((set) => ({
   error: null,
   data: null,
 
-  getBill: async () => {
+  getBill: async ({ fromDate, toDate, isPaid, currentPage }) => {
     set({ loading: true, error: null });
 
     try {
-      const res = await API.get("/bill/my-bills");
+      const res = await API.get("/bill/my-bills", {
+        params: {
+          fromDate,
+          toDate,
+          isPaid,
+          currentPage,
+        },
+      });
 
       set({
         loading: false,
       });
 
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading bills";
       set({ error: message, loading: false });

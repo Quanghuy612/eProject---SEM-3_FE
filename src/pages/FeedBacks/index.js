@@ -97,10 +97,6 @@ function FeedBacks() {
 
   return (
     <>
-      <MKBox position="fixed" top="0.5rem" width="100%" zIndex={10}>
-        <DefaultNavbar routes={routes} />
-      </MKBox>
-
       <MKBox
         minHeight="100vh"
         width="100%"
@@ -112,10 +108,11 @@ function FeedBacks() {
             )}, url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          display: "grid",
-          placeItems: "center",
         }}
       >
+        <MKBox width="100%" zIndex={10} paddingTop={2}>
+          <DefaultNavbar relative routes={routes} light />
+        </MKBox>
         <MKBox px={1} width="100%" mx="auto" position="relative" zIndex={2} marginTop={20}>
           <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
             <Grid item xs={10} sm={9} md={8} lg={7} xl={5}>

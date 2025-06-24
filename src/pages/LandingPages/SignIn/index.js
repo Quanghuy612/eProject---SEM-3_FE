@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { useState } from "react";
-import useAuthStore from "stores/signInStore";
+import useAuthStore from "stores/authStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -124,7 +124,7 @@ function SignIn() {
                       type="submit"
                       disabled={loading}
                     >
-                      {loading ? "Logging in..." : "Sign In"}
+                      {loading ? "Signing in..." : "Sign In"}
                     </MKButton>
                   </MKBox>
                   <MKBox mt={3} mb={1} textAlign="center">

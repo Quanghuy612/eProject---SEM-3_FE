@@ -48,8 +48,8 @@ function ContactUs() {
   const routes = getRoutes();
   return (
     <>
-      <MKBox position="fixed" top="0.5rem" width="100%" zIndex={10}>
-        <DefaultNavbar routes={routes} transparent relative light center />
+      <MKBox width="100%" zIndex={10} position="fixed">
+        <DefaultNavbar routes={routes} light />
       </MKBox>
 
       <MKBox

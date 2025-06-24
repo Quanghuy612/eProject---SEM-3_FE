@@ -91,19 +91,21 @@ function Presentation() {
 
   return (
     <>
-      <DefaultNavbar
-        routes={routes}
-        sticky
-        transparent
-        light
-        actionButton={{
-          type: "internal",
-          route: "/login",
-          label: "Login",
-          color: "info",
-          onClick: handleLogin,
-        }}
-      />
+      <MKBox position="fixed" width="100%" zIndex={10}>
+        <DefaultNavbar
+          routes={routes}
+          sticky
+          transparent
+          light
+          actionButton={{
+            type: "internal",
+            route: "/login",
+            label: "Login",
+            color: "info",
+            onClick: handleLogin,
+          }}
+        />
+      </MKBox>
 
       {/* Hero Section */}
       <MKBox

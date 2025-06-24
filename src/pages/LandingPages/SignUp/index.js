@@ -20,6 +20,9 @@ import getRoutes from "routes";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
+import useAuthStore from "stores/authStore";
+import { useNavigate } from "react-router-dom";
+
 // ✅ Yup Validation Schema
 const schema = yup.object().shape({
   username: yup.string().required("Username is required").min(3).max(15),
@@ -35,15 +38,23 @@ const schema = yup.object().shape({
 
 function SignUp() {
   const routes = getRoutes();
+  const { signup, loading } = useAuthStore();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => {
-    console.log("✅ Form Data:", data);
-    alert("Account created successfully!");
+  const onSubmit = async (data) => {
+    const requestPayload = {
+      Username: data.username,
+      Fullname: data.fullName,
+      Password: data.password,
+      PhoneNumber: data.phone,
+      Email: data.email,
+    };
+    await signup(requestPayload, navigate);
   };
 
   return (
@@ -101,7 +112,9 @@ function SignUp() {
                       autoComplete="off"
                       {...register("fullName")}
                     />
-                    <small className="text-red-500">{errors.fullName?.message}</small>
+                    <MKTypography variant="caption" fontWeight="regular" color="error" mt={1}>
+                      {errors.fullName?.message}
+                    </MKTypography>
                   </MKBox>
                   <MKBox mb={2}>
                     <MKInput
@@ -111,7 +124,9 @@ function SignUp() {
                       autoComplete="off"
                       {...register("username")}
                     />
-                    <small className="text-red-500">{errors.username?.message}</small>
+                    <MKTypography variant="caption" fontWeight="regular" color="error" mt={1}>
+                      {errors.username?.message}
+                    </MKTypography>
                   </MKBox>
                   <MKBox mb={2}>
                     <MKInput
@@ -121,7 +136,9 @@ function SignUp() {
                       autoComplete="off"
                       {...register("email")}
                     />
-                    <small className="text-red-500">{errors.email?.message}</small>
+                    <MKTypography variant="caption" fontWeight="regular" color="error" mt={1}>
+                      {errors.email?.message}
+                    </MKTypography>
                   </MKBox>
                   <MKBox mb={2}>
                     <MKInput
@@ -131,7 +148,9 @@ function SignUp() {
                       autoComplete="off"
                       {...register("phone")}
                     />
-                    <small className="text-red-500">{errors.phone?.message}</small>
+                    <MKTypography variant="caption" fontWeight="regular" color="error" mt={1}>
+                      {errors.phone?.message}
+                    </MKTypography>
                   </MKBox>
                   <MKBox mb={2}>
                     <MKInput
@@ -141,7 +160,9 @@ function SignUp() {
                       autoComplete="new-password"
                       {...register("password")}
                     />
-                    <small className="text-red-500">{errors.password?.message}</small>
+                    <MKTypography variant="caption" fontWeight="regular" color="error" mt={1}>
+                      {errors.password?.message}
+                    </MKTypography>
                   </MKBox>
                   <MKBox mb={2}>
                     <MKInput
@@ -151,11 +172,13 @@ function SignUp() {
                       autoComplete="new-password"
                       {...register("confirmPassword")}
                     />
-                    <small className="text-red-500">{errors.confirmPassword?.message}</small>
+                    <MKTypography variant="caption" fontWeight="regular" color="error" mt={1}>
+                      {errors.confirmPassword?.message}
+                    </MKTypography>
                   </MKBox>
                   <MKBox mt={4} mb={1}>
                     <MKButton variant="gradient" color="info" fullWidth type="submit">
-                      Sign Up
+                      {loading ? "Signing up" : "Sign Up"}
                     </MKButton>
                   </MKBox>
                   <MKBox mt={3} mb={1} textAlign="center">

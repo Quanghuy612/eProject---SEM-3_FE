@@ -39,7 +39,7 @@ function DefaultFooter({ content }) {
               <Link to={brand.route}>
                 <MKBox component="img" src={brand.image} alt={brand.name} maxWidth="2rem" mb={2} />
               </Link>
-              <MKTypography variant="h6">{brand.name}</MKTypography>
+              <MKTypography variant="h6">Mobile Recharges</MKTypography>
             </MKBox>
             <MKBox display="flex" alignItems="center" mt={3}>
               {socials.map(({ icon, link }, key) => (

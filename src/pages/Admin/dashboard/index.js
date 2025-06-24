@@ -61,7 +61,7 @@ function Dashboard() {
     };
     const fetchData = async () => {
       const result = await caculateTotal();
-      setTotal(result);
+      setTotal(result.data);
     };
     fetchData();
     fetchDataServices();
