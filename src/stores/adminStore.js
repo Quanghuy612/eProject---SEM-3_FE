@@ -18,10 +18,7 @@ const useAdminStore = create((set) => ({
 
       const user = jwtDecode(accessToken);
       localStorage.setItem("user", JSON.stringify(user));
-
-      const returnURL = localStorage.getItem("returnURL") || "/admin";
-      navigate(returnURL, { replace: true });
-      localStorage.removeItem("returnURL");
+      navigate("/admin");
     } catch (err) {
       const message =
         err?.response?.data?.message || err?.message || "Login failed. Please try again.";

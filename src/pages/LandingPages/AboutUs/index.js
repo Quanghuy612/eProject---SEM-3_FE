@@ -31,19 +31,9 @@ function AboutUs() {
   const routes = getRoutes();
   return (
     <>
-      <DefaultNavbar
-        routes={routes}
-        // action={{
-        //   type: "internal",
-        //   route: "/signup",
-        //   label: "Sign Up Now",
-        //   color: "info",
-        // }}
-        transparent
-        light
-      />
-
-      {/* Hero Banner */}
+      <MKBox width="100%" zIndex={10} position="fixed">
+        <DefaultNavbar routes={routes} light />
+      </MKBox>
       <MKBox
         minHeight="50vh"
         width="100%"

@@ -1,6 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "pages/Error";
+import { Navigate } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -163,7 +164,7 @@ function AdminApp() {
       <Routes>
         {getRoutesAdmin(adminRoutes)}
         <Route path="/admin" element={<Dashboard />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </>
   );

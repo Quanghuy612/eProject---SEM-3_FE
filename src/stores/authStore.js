@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import API from "api/api";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const useAuthStore = create((set) => ({
   loading: false,
-  error: null,
   token: localStorage.getItem("token") || null,
 
   login: async (username, password, navigate) => {
@@ -35,7 +35,26 @@ const useAuthStore = create((set) => ({
       });
     } catch (err) {
       const message = err?.response?.data?.message || "Login failed. Please try again.";
-      set({ error: message, loading: false });
+      toast.error(message);
+      set({ loading: false });
+    }
+  },
+
+  signup: async (data, navigate) => {
+    set({ loading: true, error: null });
+
+    try {
+      await API.post("/auth/signup", data);
+
+      navigate("/authentication/sign-in");
+      toast.success("Sign up success");
+      set({
+        loading: false,
+      });
+    } catch (err) {
+      const message = err?.response?.data?.message || "Sign up failed. Please try again.";
+      toast.error(message);
+      set({ loading: false });
     }
   },
 

@@ -19,14 +19,10 @@ Coded by www.creative-tim.com
 import MDBox from "components/Admin/MDBox";
 import MDTypography from "components/Admin/MDTypography";
 import MDBadge from "components/Admin/MDBadge";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
-export default function data({ param = [] } = {}) {
-  const Phone = ({ phoneNumber }) => (
-    <MDTypography display="block" variant="button" fontWeight="medium">
-      {phoneNumber}
-    </MDTypography>
-  );
-
+export default function data({ param = [], isPaid = false, onView } = {}) {
   const AmountInfo = ({ amount }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
@@ -35,7 +31,7 @@ export default function data({ param = [] } = {}) {
     </MDBox>
   );
 
-  const PackageName = ({ name }) => (
+  const Text = ({ name }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
         {name}
@@ -58,9 +54,9 @@ export default function data({ param = [] } = {}) {
 
   const generateRows = (data) =>
     data.map((bill) => ({
-      phone: <Phone phoneNumber={bill.phoneNumber} />,
-      packageName: <PackageName name={bill.packageName} />,
-      packageType: <PackageName name={bill.packageType} />,
+      "Bill's No": <Text name={bill.billId} />,
+      packageName: <Text name={bill.packageName} />,
+      packageType: <Text name={bill.packageType} />,
       amountInfo: <AmountInfo amount={bill.totalAmount} />,
       status: getStatusBadge(bill.isPaid),
       dueDate: (
@@ -68,16 +64,22 @@ export default function data({ param = [] } = {}) {
           {formatDate(bill.dueDate)}
         </MDTypography>
       ),
+      actions: isPaid ? (
+        <IconButton onClick={() => onView?.(bill)} aria-label="View Details">
+          <VisibilityIcon />
+        </IconButton>
+      ) : null,
     }));
 
   return {
     columns: [
-      { Header: "Phone Number", accessor: "phone", width: "25%", align: "left" },
+      { Header: "Bill's No", accessor: "Bill's No", align: "left" },
       { Header: "Package name", accessor: "packageName", align: "left" },
       { Header: "Package type", accessor: "packageType", align: "left" },
       { Header: "Total Amount", accessor: "amountInfo", align: "left" },
       { Header: "Status", accessor: "status", align: "center" },
       { Header: "Due Date", accessor: "dueDate", align: "center" },
+      { Header: "Actions", accessor: "actions", align: "center" },
     ],
     rows: generateRows(param),
   };
