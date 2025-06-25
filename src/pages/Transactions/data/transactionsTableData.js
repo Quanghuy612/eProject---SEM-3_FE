@@ -23,7 +23,7 @@ export default function data({ param = [] } = {}) {
   const AmountInfo = ({ amount }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
-        ${amount.toFixed(2)}
+        ${Number(amount || 0).toFixed(2)}
       </MDTypography>
     </MDBox>
   );
@@ -39,9 +39,13 @@ export default function data({ param = [] } = {}) {
   const generateRows = (data) =>
     data.map((transaction) => ({
       "Transaction's No": <Text name={transaction.transactionId} />,
-      totalAmount: <Text name={transaction.totalAmount} />,
-      date: <Text name={transaction.localTime} />,
-      paymentMethod: <AmountInfo amount={transaction.paymentMethod} />,
+      totalAmount: <AmountInfo amount={transaction.totalAmount} />,
+      date: (
+        <MDTypography variant="caption" color="text" fontWeight="medium">
+          {transaction.localTime}
+        </MDTypography>
+      ),
+      paymentMethod: <Text name={transaction.paymentMethod} />,
     }));
 
   return {

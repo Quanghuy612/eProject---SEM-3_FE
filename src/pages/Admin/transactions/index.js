@@ -15,16 +15,21 @@ import transactionsTableData from "./data/transactionsTableData";
 import useAdminStore from "stores/adminStore";
 import { exportToExcel } from "utils/exportExcel";
 
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css";
 import { useEffect, useState } from "react";
+import { TextField } from "@mui/material";
 
 function Transactions() {
   const getTransactions = useAdminStore((state) => state.getTransactions);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
   const [excel, setExcel] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getTransactions();
+      const result = await getTransactions({ fromDate, toDate });
       if (result?.data) {
         setExcel(result.data);
         const { columns, rows } = transactionsTableData({ param: result.data });
@@ -32,7 +37,7 @@ function Transactions() {
       }
     };
     fetchData();
-  }, []);
+  }, [fromDate, toDate]);
 
   return (
     <DashboardLayout>
@@ -47,14 +52,56 @@ function Transactions() {
                 py={3}
                 px={2}
                 variant="gradient"
-                bgColor="info"
+                bgColor="light"
                 borderRadius="lg"
                 coloredShadow="info"
                 sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
               >
-                <MDTypography variant="h6" color="white">
+                <MDTypography variant="h6" color="black" sx={{ flexGrow: 1 }}>
                   Transactions
                 </MDTypography>
+                <Flatpickr
+                  value={fromDate}
+                  options={{
+                    dateFormat: "d/m/Y",
+                  }}
+                  onChange={([date]) => setFromDate(date)}
+                  render={({ value, ...props }, ref) => (
+                    <TextField
+                      {...props}
+                      inputRef={ref}
+                      value={value}
+                      onChange={() => {}}
+                      label="From Date"
+                      placeholder="From Date"
+                      variant="outlined"
+                      sx={{ color: "black", mr: 1 }}
+                      InputLabelProps={{ style: { color: "black" } }}
+                      InputProps={{ style: { color: "black" } }}
+                    />
+                  )}
+                />
+                <Flatpickr
+                  value={toDate}
+                  options={{
+                    dateFormat: "d/m/Y",
+                  }}
+                  onChange={([date]) => setToDate(date)}
+                  render={({ value, ...props }, ref) => (
+                    <TextField
+                      {...props}
+                      inputRef={ref}
+                      value={value}
+                      onChange={() => {}}
+                      label="To Date"
+                      placeholder="To Date"
+                      variant="outlined"
+                      sx={{ color: "black", mr: 1 }}
+                      InputLabelProps={{ style: { color: "black" } }}
+                      InputProps={{ style: { color: "black" } }}
+                    />
+                  )}
+                />
                 <Button
                   sx={{
                     backgroundColor: "#FFA000",
@@ -74,7 +121,7 @@ function Transactions() {
                   table={tableData}
                   isSorted={false}
                   entriesPerPage={false}
-                  showTotalEntries={false}
+                  showTotalEntries={true}
                   noEndBorder
                 />
               </MDBox>

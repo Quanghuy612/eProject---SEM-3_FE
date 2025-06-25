@@ -35,11 +35,6 @@ export default function data({ param = [] } = {}) {
       ),
       amountInfo: <AmountInfo amount={transaction.totalAmount} />,
       paymentMethod: <PaymentMethod method={transaction.paymentMethod} />,
-      paymentDate: (
-        <MDTypography variant="caption" color="text" fontWeight="medium">
-          {formatDate(transaction.paymentDate)}
-        </MDTypography>
-      ),
     }));
 
   return {
@@ -49,7 +44,6 @@ export default function data({ param = [] } = {}) {
       { Header: "Transaction Date", accessor: "transactionDate", align: "left" },
       { Header: "Total Amount", accessor: "amountInfo", align: "left" },
       { Header: "Payment Method", accessor: "paymentMethod", align: "left" },
-      { Header: "Payment Date", accessor: "paymentDate", align: "center" },
     ],
     rows: generateRows(param),
   };

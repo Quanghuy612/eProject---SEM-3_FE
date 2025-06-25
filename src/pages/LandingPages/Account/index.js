@@ -177,159 +177,168 @@ export default function Account() {
 
   return (
     <>
-      <DefaultNavbar routes={routes} transparent light />
       <MKBox
-        position="absolute"
-        top={0}
-        left={0}
-        zIndex={1}
+        minHeight="100vh"
         width="100%"
-        height="100vh"
         sx={{
-          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
-            )}, url(${bgImage})`,
+          backgroundImage: () =>
+            `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          position: "relative",
+          overflow: "hidden",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(circle at 30% 50%, rgba(179, 207, 215, 0.1) 0%, transparent 70%)",
+            zIndex: 0,
+          },
         }}
-      />
-      <MKBox position="relative" zIndex={2} minHeight="100vh" display="flex" flexDirection="column">
-        <MKBox
-          flexGrow={1}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          py={6}
-          px={1}
-        >
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={8} lg={6} xl={5}>
-              <Card>
-                <MKBox
-                  variant="gradient"
-                  bgColor="info"
-                  borderRadius="lg"
-                  coloredShadow="info"
-                  mx={2}
-                  mt={-3}
-                  p={2}
-                  mb={1}
-                  textAlign="center"
-                >
-                  <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-                    Account Information
-                  </MKTypography>
-                  <MKTypography variant="body2" color="white" opacity={0.8}>
-                    Update your personal information
-                  </MKTypography>
-                </MKBox>
-                <MKBox pt={4} pb={3} px={3}>
-                  <MKBox component="form" role="form" onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} md={6}>
-                        <MKBox mb={2}>
-                          <MKInput
-                            type="text"
-                            label="Username"
-                            fullWidth
-                            disabled
-                            value={formData.username}
-                          />
-                        </MKBox>
+      >
+        <MKBox width="100%" zIndex={10} paddingTop={2}>
+          <DefaultNavbar relative routes={routes} light />
+        </MKBox>
+        <MKBox position="relative" zIndex={2} display="flex" flexDirection="column">
+          <MKBox
+            flexGrow={1}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            py={6}
+            px={1}
+          >
+            <Grid container justifyContent="center">
+              <Grid item xs={12} sm={10} md={8} lg={6} xl={5}>
+                <Card>
+                  <MKBox
+                    variant="gradient"
+                    bgColor="info"
+                    borderRadius="lg"
+                    coloredShadow="info"
+                    mx={2}
+                    mt={-3}
+                    p={2}
+                    mb={1}
+                    textAlign="center"
+                  >
+                    <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+                      Account Information
+                    </MKTypography>
+                    <MKTypography variant="body2" color="white" opacity={0.8}>
+                      Update your personal information
+                    </MKTypography>
+                  </MKBox>
+                  <MKBox pt={4} pb={3} px={3}>
+                    <MKBox component="form" role="form" onSubmit={handleSubmit}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                          <MKBox mb={2}>
+                            <MKInput
+                              type="text"
+                              label="Username"
+                              fullWidth
+                              disabled
+                              value={formData.username}
+                            />
+                          </MKBox>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <MKBox mb={2}>
+                            <MKInput
+                              type="text"
+                              label="Phone number"
+                              fullWidth
+                              name="phoneNumber"
+                              value={formData.phoneNumber}
+                              onChange={handleChange}
+                            />
+                          </MKBox>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <MKBox mb={2}>
+                            <MKInput
+                              type="text"
+                              label="Full name *"
+                              fullWidth
+                              name="fullname"
+                              value={formData.fullname}
+                              onChange={handleChange}
+                              error={!!errors.fullname}
+                              helperText={errors.fullname}
+                            />
+                          </MKBox>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <MKBox mb={2}>
+                            <MKInput
+                              type="email"
+                              label="Email *"
+                              fullWidth
+                              name="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              error={!!errors.email}
+                              helperText={errors.email}
+                            />
+                          </MKBox>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <MKBox mb={2}>
+                            <MKInput
+                              type="password"
+                              label="Current Password *"
+                              fullWidth
+                              name="currentPassword"
+                              value={formData.currentPassword}
+                              onChange={handleChange}
+                              error={!!errors.currentPassword}
+                              helperText={errors.currentPassword}
+                            />
+                          </MKBox>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <MKBox mb={2}>
+                            <MKInput
+                              type="password"
+                              label="New Password (optional)"
+                              fullWidth
+                              name="password"
+                              value={formData.password}
+                              onChange={handleChange}
+                              error={!!errors.password}
+                              helperText={errors.password}
+                            />
+                          </MKBox>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} md={6}>
-                        <MKBox mb={2}>
-                          <MKInput
-                            type="text"
-                            label="Phone number"
-                            fullWidth
-                            name="phoneNumber"
-                            value={formData.phoneNumber}
-                            onChange={handleChange}
-                          />
-                        </MKBox>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <MKBox mb={2}>
-                          <MKInput
-                            type="text"
-                            label="Full name *"
-                            fullWidth
-                            name="fullname"
-                            value={formData.fullname}
-                            onChange={handleChange}
-                            error={!!errors.fullname}
-                            helperText={errors.fullname}
-                          />
-                        </MKBox>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <MKBox mb={2}>
-                          <MKInput
-                            type="email"
-                            label="Email *"
-                            fullWidth
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            error={!!errors.email}
-                            helperText={errors.email}
-                          />
-                        </MKBox>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <MKBox mb={2}>
-                          <MKInput
-                            type="password"
-                            label="Current Password *"
-                            fullWidth
-                            name="currentPassword"
-                            value={formData.currentPassword}
-                            onChange={handleChange}
-                            error={!!errors.currentPassword}
-                            helperText={errors.currentPassword}
-                          />
-                        </MKBox>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <MKBox mb={2}>
-                          <MKInput
-                            type="password"
-                            label="New Password (optional)"
-                            fullWidth
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            error={!!errors.password}
-                            helperText={errors.password}
-                          />
-                        </MKBox>
-                      </Grid>
-                    </Grid>
-                    <MKBox mt={4} mb={1} textAlign="center">
-                      <MKButton
-                        variant="gradient"
-                        color="info"
-                        type="submit"
-                        disabled={
-                          !formData.fullname ||
-                          !formData.email ||
-                          !formData.currentPassword ||
-                          updating
-                        }
-                        fullWidth
-                      >
-                        {updating ? "Updating..." : "Update"}
-                      </MKButton>
+                      <MKBox mt={4} mb={1} textAlign="center">
+                        <MKButton
+                          variant="gradient"
+                          color="info"
+                          type="submit"
+                          disabled={
+                            !formData.fullname ||
+                            !formData.email ||
+                            !formData.currentPassword ||
+                            updating
+                          }
+                          fullWidth
+                        >
+                          {updating ? "Updating..." : "Update"}
+                        </MKButton>
+                      </MKBox>
                     </MKBox>
                   </MKBox>
-                </MKBox>
-              </Card>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
+          </MKBox>
         </MKBox>
       </MKBox>
     </>

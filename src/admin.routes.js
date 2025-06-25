@@ -8,6 +8,7 @@ import Transactions from "pages/Admin/transactions";
 import Packages from "pages/Admin/packages";
 import Users from "pages/Admin/user";
 import Profile from "pages/Admin/profile";
+import Feedback from "pages/Admin/feedback";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -62,6 +63,18 @@ const getAdminRoutes = () => {
       component: (
         <AdminPrivateRoute>
           <Packages />
+        </AdminPrivateRoute>
+      ),
+    },
+    {
+      type: "collapse",
+      name: "Feedbacks",
+      key: "feedback",
+      icon: <Icon fontSize="small">feedback</Icon>,
+      route: "/admin/feedbacks",
+      component: (
+        <AdminPrivateRoute>
+          <Feedback />
         </AdminPrivateRoute>
       ),
     },

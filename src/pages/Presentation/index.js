@@ -81,12 +81,11 @@ function Presentation() {
 
   // Top-up amounts
   const topupAmounts = [
-    { amount: 10, bonus: 0.5 },
-    { amount: 20, bonus: 1 },
-    { amount: 50, bonus: 2.5 },
-    { amount: 100, bonus: 5 },
-    { amount: 200, bonus: 10 },
-    { amount: 500, bonus: 25 },
+    { amount: 20, bonus: 0.5 },
+    { amount: 50, bonus: 1 },
+    { amount: 100, bonus: 2.5 },
+    { amount: 120, bonus: 5 },
+    { amount: 150, bonus: 10 },
   ];
 
   return (
@@ -462,10 +461,10 @@ function Presentation() {
                   }}
                 >
                   <MKTypography variant="h4" fontWeight="bold" color="info">
-                    {item.amount.toLocaleString()}K
+                    ${item.amount.toLocaleString()} PACK
                   </MKTypography>
                   <MKTypography variant="body2" color="success" fontWeight="medium">
-                    +{item.bonus.toLocaleString()}K cashback
+                    +${item.bonus.toLocaleString()} cashback
                   </MKTypography>
                 </MKBox>
               </Grid>

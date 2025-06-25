@@ -40,35 +40,18 @@ export default {
     {
       name: "company",
       items: [
-        { name: "about us", href: "https://www.creative-tim.com/presentation" },
-        { name: "freebies", href: "https://www.creative-tim.com/templates/free" },
-        { name: "premium tools", href: "https://www.creative-tim.com/templates/premium" },
-        { name: "blog", href: "https://www.creative-tim.com/blog" },
+        { name: "about us", href: "/about-us" },
+        { name: "contact us", href: "/contact-us" },
+        { name: "premium tools", href: "" },
+        { name: "blog", href: "" },
       ],
     },
     {
-      name: "resources",
+      name: "Legal",
       items: [
-        { name: "illustrations", href: "https://iradesign.io/" },
-        { name: "bits & snippets", href: "https://www.creative-tim.com/bits" },
-        { name: "affiliate program", href: "https://www.creative-tim.com/affiliates/new" },
-      ],
-    },
-    {
-      name: "help & support",
-      items: [
-        { name: "contact us", href: "https://www.creative-tim.com/contact-us" },
-        { name: "knowledge center", href: "https://www.creative-tim.com/knowledge-center" },
-        { name: "custom development", href: "https://services.creative-tim.com/" },
-        { name: "sponsorships", href: "https://www.creative-tim.com/sponsorships" },
-      ],
-    },
-    {
-      name: "legal",
-      items: [
-        { name: "terms & conditions", href: "https://www.creative-tim.com/terms" },
-        { name: "privacy policy", href: "https://www.creative-tim.com/privacy" },
-        { name: "licenses (EULA)", href: "https://www.creative-tim.com/license" },
+        { name: "terms & conditions", href: "" },
+        { name: "privacy policy", href: "" },
+        { name: "licenses (EULA)", href: "" },
       ],
     },
   ],
@@ -77,7 +60,7 @@ export default {
       All rights reserved. Copyright &copy; {date} Material Kit by{" "}
       <MKTypography
         component="a"
-        href="https://www.creative-tim.com"
+        href="/"
         target="_blank"
         rel="noreferrer"
         variant="button"

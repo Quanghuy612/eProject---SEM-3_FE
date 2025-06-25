@@ -67,11 +67,14 @@ const useAdminStore = create((set) => ({
     }
   },
 
-  getBills: async () => {
+  getBills: async ({ fromDate, toDate, isPaid }) => {
     set({ loadingServices: true });
 
     try {
-      const res = await API.get("/admin/bills");
+      const res = await API.get("/admin/bills", {
+        params: { fromDate, toDate, isPaid },
+      });
+
       return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || err?.message || "Error getting bills";
@@ -82,11 +85,13 @@ const useAdminStore = create((set) => ({
     }
   },
 
-  getTransactions: async () => {
+  getTransactions: async ({ fromDate, toDate }) => {
     set({ loadingServices: true });
 
     try {
-      const res = await API.get("/admin/transactions");
+      const res = await API.get("/admin/transactions", {
+        params: { fromDate, toDate },
+      });
       return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || err?.message || "Error getting transactions";
@@ -122,6 +127,72 @@ const useAdminStore = create((set) => ({
       const message = err?.response?.data?.message || err?.message || "Error getting users";
       toast.error(message);
       return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  getFeedbacks: async () => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.get("/admin/feedbacks");
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || "Error getting feedbacks";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  handleFeedback: async (feedbackId, action) => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.patch(`/admin/feedbacks/${feedbackId}/${action}`);
+      toast.success(`Feedback ${action}d!`);
+      return res.data;
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message || `Error ${action}ing feedback`;
+      toast.error(message);
+      return { success: false };
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  togglePackage: async (packageId, type, enable) => {
+    set({ loadingServices: true });
+
+    try {
+      const action = enable ? "enable" : "disable";
+      const res = await API.patch(`/admin/packages/${type}/${packageId}/${action}`);
+      toast.success(`Package ${action}d!`);
+      return res.data;
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || err?.message || `Error changing status package`;
+      toast.error(message);
+      return { success: false };
+    } finally {
+      set({ loadingServices: false });
+    }
+  },
+
+  addPackage: async (data) => {
+    set({ loadingServices: true });
+
+    try {
+      const res = await API.post(`/admin/packages`, data);
+      toast.success(`Package ${data.name} added`);
+      return res.data;
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || err?.message || `Error changing status package`;
+      toast.error(message);
+      return { success: false };
     } finally {
       set({ loadingServices: false });
     }

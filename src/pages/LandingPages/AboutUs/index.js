@@ -24,8 +24,9 @@ import footerRoutes from "footer.routes";
 
 // Images
 import aboutImage from "assets/images/bg-about-us.jpg";
+import aboutCompany from "assets/images/team-1.jpg";
 import missionImage from "assets/images/bg-presentation.jpg";
-import visionImage from "assets/images/lehonghai.jpg";
+import visionImage from "assets/images/ivana-squares.jpg";
 
 function AboutUs() {
   const routes = getRoutes();
@@ -84,7 +85,7 @@ function AboutUs() {
             <Grid item xs={12} md={6}>
               <MKBox
                 component="img"
-                src={aboutImage}
+                src={aboutCompany}
                 alt="About Us"
                 width="100%"
                 borderRadius="lg"
@@ -98,14 +99,20 @@ function AboutUs() {
           {/* Mission & Vision */}
           <Grid container spacing={6}>
             <Grid item xs={12} md={6}>
-              <Card sx={{ p: 3, height: "100%" }}>
+              <Card
+                sx={{
+                  p: 3,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <MKBox
                   component="img"
                   src={missionImage}
                   alt="Our Mission"
-                  width="100%"
-                  borderRadius="lg"
-                  mb={3}
+                  sx={{ width: "100%", borderRadius: "12px", mb: 3 }}
                 />
                 <MKTypography variant="h4" fontWeight="bold" mb={2}>
                   Our Mission

@@ -15,16 +15,23 @@ import getRoutes from "routes";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import billStore from "stores/billStore";
 import React, { useEffect, useState } from "react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Card, CardHeader, CardContent, CardActions, Pagination } from "@mui/material";
+import transactionsTableData from "./data/transactionsTableData";
+import DataTable from "examples/Admin/Tables/DataTable";
 
 function Transactions() {
   const { getTransaction } = billStore();
-  const [transactions, setTransactions] = useState([]);
   const routes = getRoutes();
+  const [totalItems, setTotalItems] = useState(1);
+  const [tableData, setTableData] = useState({ columns: [], rows: [] });
+  const pageSize = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchData = async () => {
-    const res = await getTransaction();
-    setTransactions(res.data.data);
+    const res = await getTransaction({ currentPage });
+    const { columns, rows } = transactionsTableData({ param: res.data.data });
+    setTotalItems(Math.ceil(res.data.totalItems / pageSize));
+    setTableData({ columns, rows });
   };
 
   useEffect(() => {
@@ -33,71 +40,88 @@ function Transactions() {
 
   return (
     <>
-      <MKBox position="fixed" top="0.5rem" width="100%" zIndex={10}>
-        <DefaultNavbar routes={routes} />
-      </MKBox>
       <MKBox
         minHeight="100vh"
         width="100%"
         sx={{
-          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
-            )}, url(${bgImage})`,
+          backgroundImage: () =>
+            `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          display: "grid",
-          placeItems: "center",
+          backgroundRepeat: "no-repeat",
+          position: "relative",
+          overflow: "hidden",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(circle at 30% 50%, rgba(179, 207, 215, 0.1) 0%, transparent 70%)",
+            zIndex: 0,
+          },
         }}
       >
-        <Box
-          sx={{
-            bgcolor: "background.paper",
-            borderRadius: 2,
-            boxShadow: 6,
-            width: "100%",
-            maxWidth: 900,
-            margin: "auto",
-          }}
-          marginTop={20}
-        >
-          <Typography variant="h5" fontWeight="bold" p={2} textAlign="center">
-            Transactions
-          </Typography>
+        <MKBox width="100%" zIndex={10} paddingTop={2}>
+          <DefaultNavbar relative routes={routes} light />
+        </MKBox>
+        <MKBox width="60%" mx="auto">
+          <Card
+            sx={{
+              backgroundColor: "rgba(255,255,255,0.9)",
+              padding: 2,
+              borderRadius: 2,
+              boxShadow: 3,
+              marginTop: 4,
+            }}
+          >
+            <CardHeader
+              sx={{
+                backgroundColor: "rgba(255,255,255,0.9)",
+                borderRadius: 2,
+              }}
+              title={
+                <MKBox
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="h4" sx={{ flexGrow: 1 }}>
+                    Your Transactions
+                  </Typography>
+                </MKBox>
+              }
+            />
 
-          {/* TableContainer with maxHeight for vertical scroll */}
-          <div style={{ maxHeight: "640px", overflow: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed" }}>
-              <thead style={{ position: "sticky", top: 0, backgroundColor: "#fff", zIndex: 1 }}>
-                <tr>
-                  <th style={{ textAlign: "left", padding: "8px" }}>Transaction Date</th>
-                  <th style={{ textAlign: "center", padding: "8px" }}>Amount ($)</th>
-                  <th style={{ textAlign: "left", padding: "8px" }}>Payment Method</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!transactions || transactions.length === 0 ? (
-                  <tr>
-                    <td colSpan="3" style={{ textAlign: "center", padding: "8px" }}>
-                      No transactions found.
-                    </td>
-                  </tr>
-                ) : (
-                  transactions.map((tx) => (
-                    <tr key={tx.transactionId} style={{ borderTop: "1px solid #ddd" }}>
-                      <td style={{ padding: "8px" }}>{tx.localTime}</td>
-                      <td style={{ padding: "8px", textAlign: "center" }}>
-                        {tx.totalAmount.toFixed(2)}
-                      </td>
-                      <td style={{ padding: "8px" }}>{tx.paymentMethod}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </Box>
+            <CardContent>
+              <MKBox pt={1}>
+                <DataTable
+                  table={tableData}
+                  isSorted={false}
+                  entriesPerPage={false}
+                  showTotalEntries={false}
+                  noEndBorder
+                />
+              </MKBox>
+            </CardContent>
+
+            {/* Footer with pagination */}
+            <CardActions sx={{ justifyContent: "center", paddingTop: 2 }}>
+              <Pagination
+                count={totalItems}
+                page={currentPage}
+                onChange={(e, value) => setCurrentPage(value)}
+                color="info"
+              />
+            </CardActions>
+          </Card>
+        </MKBox>
       </MKBox>
     </>
   );

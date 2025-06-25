@@ -20,9 +20,9 @@ import MDBox from "components/Admin/MDBox";
 import MDTypography from "components/Admin/MDTypography";
 import MDBadge from "components/Admin/MDBadge";
 import IconButton from "@mui/material/IconButton";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 
-export default function data({ param = [], isPaid = false, onView } = {}) {
+export default function data({ param = [], onView } = {}) {
   const AmountInfo = ({ amount }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
@@ -64,9 +64,9 @@ export default function data({ param = [], isPaid = false, onView } = {}) {
           {formatDate(bill.dueDate)}
         </MDTypography>
       ),
-      actions: isPaid ? (
+      actions: !bill.isPaid ? (
         <IconButton onClick={() => onView?.(bill)} aria-label="View Details">
-          <VisibilityIcon />
+          <CreditCardIcon />
         </IconButton>
       ) : null,
     }));

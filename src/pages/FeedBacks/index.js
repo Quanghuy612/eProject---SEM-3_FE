@@ -1,7 +1,7 @@
 // Material Kit 2 React components
 import MKBox from "components/User/MKBox";
 import MKTypography from "components/User/MKTypography";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 // Material Kit 2 React example components
 import DefaultNavbar from "examples/User/Navbars/DefaultNavbar";
 
@@ -9,7 +9,19 @@ import DefaultNavbar from "examples/User/Navbars/DefaultNavbar";
 import getRoutes from "routes";
 
 // @mui components
-import { Card, CardContent, Grid, Modal, Box, Button, TextField, Fab } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Modal,
+  Box,
+  Button,
+  TextField,
+  Fab,
+  CardHeader,
+  CardActions,
+  Pagination,
+} from "@mui/material";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
@@ -53,9 +65,14 @@ function FeedBacks() {
   const [open, setOpen] = useState(false);
   const { getFeedBack, createFeedBack } = feedBackStore();
   const user = JSON.parse(localStorage.getItem("user"));
+  const [totalItems, setTotalItems] = useState(1);
+  const pageSize = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [thanksMessage, setThanksMessage] = useState("");
 
   const fetchData = async () => {
-    const res = await getFeedBack();
+    const res = await getFeedBack({ currentPage });
+    setTotalItems(Math.ceil(res.data.totalItems / pageSize));
     setFeedbackList(res.data.data);
   };
 
@@ -89,10 +106,14 @@ function FeedBacks() {
       toast.error("Error while creating feedback");
       return;
     }
-    toast.success(res.data.message);
     reset();
-    setOpen(false);
-    fetchData();
+    setThanksMessage("Thank you for your feedback!");
+
+    setTimeout(() => {
+      setThanksMessage("");
+      setOpen(false);
+      fetchData();
+    }, 2000);
   };
 
   return (
@@ -101,70 +122,95 @@ function FeedBacks() {
         minHeight="100vh"
         width="100%"
         sx={{
-          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
-            )}, url(${bgImage})`,
+          backgroundImage: () =>
+            `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          position: "relative",
+          overflow: "hidden",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(circle at 30% 50%, rgba(179, 207, 215, 0.1) 0%, transparent 70%)",
+            zIndex: 0,
+          },
         }}
       >
         <MKBox width="100%" zIndex={10} paddingTop={2}>
           <DefaultNavbar relative routes={routes} light />
         </MKBox>
-        <MKBox px={1} width="100%" mx="auto" position="relative" zIndex={2} marginTop={20}>
-          <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
-            <Grid item xs={10} sm={9} md={8} lg={7} xl={5}>
-              <Card>
+        <MKBox width="60%" mx="auto" position="relative" zIndex={2}>
+          <Card
+            sx={{
+              backgroundColor: "rgba(255,255,255,0.9)",
+              padding: 2,
+              borderRadius: 2,
+              boxShadow: 3,
+              marginTop: 4,
+            }}
+          >
+            <CardHeader
+              sx={{
+                backgroundColor: "rgba(255,255,255,0.9)",
+                borderRadius: 2,
+                marginBottom: 2,
+              }}
+              title={
                 <MKBox
-                  variant="gradient"
-                  bgColor="info"
-                  borderRadius="lg"
-                  coloredShadow="info"
-                  mx={2}
-                  mt={-3}
-                  p={2}
-                  mb={1}
-                  textAlign="center"
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-                    Feedbacks
+                  <MKTypography variant="h4" sx={{ flexGrow: 1 }}>
+                    FeedBacks
                   </MKTypography>
+                  <Fab
+                    color="primary"
+                    style={{ width: 35, height: 35, minHeight: 35 }}
+                    onClick={() => setOpen(true)}
+                  >
+                    <AddIcon />
+                  </Fab>
                 </MKBox>
-                {feedbackList.map((feedback) => (
-                  <MKBox key={feedback.id} pt={2} pb={2} px={3}>
-                    <Grid item xs={12}>
-                      <Card>
-                        <CardContent>
-                          <MKTypography variant="h6">{feedback.subject}</MKTypography>
-                          <MKTypography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                            {feedback.initialMessage}
-                          </MKTypography>
-                          <StarDisplay ratting={feedback.ratting} />
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  </MKBox>
-                ))}
-              </Card>
-            </Grid>
-          </Grid>
-        </MKBox>
-        <MKBox width="50%">
-          <Grid container spacing={2}></Grid>
+              }
+            />
+            {feedbackList.map((feedback, index) => (
+              <MKBox key={index} pt={1} pb={1} pr={2} pl={2}>
+                <Grid item xs={12}>
+                  <Card>
+                    <CardContent>
+                      <MKTypography variant="h6">{feedback.subject}</MKTypography>
+                      <MKTypography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        {feedback.initialMessage}
+                      </MKTypography>
+                      <StarDisplay ratting={feedback.ratting} />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </MKBox>
+            ))}
+            {/* Footer with pagination */}
+            <CardActions sx={{ justifyContent: "center", paddingTop: 2 }}>
+              <Pagination
+                count={totalItems}
+                page={currentPage}
+                onChange={(e, value) => setCurrentPage(value)}
+                color="info"
+              />
+            </CardActions>
+          </Card>
         </MKBox>
 
-        {/* ➕ Floating Button */}
-        <Fab
-          color="primary"
-          onClick={() => setOpen(true)}
-          sx={{ position: "fixed", bottom: 32, right: 32 }}
-        >
-          <AddIcon />
-        </Fab>
-
-        {/* 📋 Feedback Modal */}
         <Modal open={open} onClose={() => setOpen(false)}>
           <Box
             component="form"
@@ -182,63 +228,89 @@ function FeedBacks() {
               display: "flex",
               flexDirection: "column",
               gap: 2,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Controller
-              name="subject"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Title"
-                  error={!!errors.subject}
-                  helperText={errors.subject?.message}
-                  fullWidth
-                />
-              )}
-            />
-
-            <Controller
-              name="content"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Content"
-                  multiline
-                  rows={4}
-                  error={!!errors.content}
-                  helperText={errors.content?.message}
-                  fullWidth
-                />
-              )}
-            />
-
-            <Controller
-              name="rating"
-              control={control}
-              render={({ field }) => (
-                <Box>
-                  <MKTypography variant="body2" mb={0.5}>
-                    Rating
-                  </MKTypography>
-                  <Rating
-                    {...field}
-                    value={Number(field.value)}
-                    onChange={(_, value) => field.onChange(value)}
-                  />
-                  {errors.rating && (
-                    <MKTypography color="error" variant="caption">
-                      {errors.rating.message}
-                    </MKTypography>
+            {thanksMessage ? (
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                textAlign="center"
+                gap={2}
+                sx={{
+                  animation: "fadeIn 0.4s ease-in-out",
+                }}
+              >
+                <CheckCircleIcon sx={{ fontSize: 60, color: "success.main" }} />
+                <MKTypography variant="h5" fontWeight="bold" color="success.main">
+                  {thanksMessage}
+                </MKTypography>
+                <MKTypography variant="body2" color="text.secondary">
+                  We appreciate your valuable input!
+                </MKTypography>
+              </Box>
+            ) : (
+              <>
+                <Controller
+                  name="subject"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Title"
+                      error={!!errors.subject}
+                      helperText={errors.subject?.message}
+                      fullWidth
+                    />
                   )}
-                </Box>
-              )}
-            />
+                />
 
-            <Button type="submit" variant="contained" sx={{ color: "#fff" }}>
-              Submit Feedback
-            </Button>
+                <Controller
+                  name="content"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Content"
+                      multiline
+                      rows={4}
+                      error={!!errors.content}
+                      helperText={errors.content?.message}
+                      fullWidth
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="rating"
+                  control={control}
+                  render={({ field }) => (
+                    <Box>
+                      <MKTypography variant="body2" mb={0.5}>
+                        Rating
+                      </MKTypography>
+                      <Rating
+                        {...field}
+                        value={Number(field.value)}
+                        onChange={(_, value) => field.onChange(value)}
+                      />
+                      {errors.rating && (
+                        <MKTypography color="error" variant="caption">
+                          {errors.rating.message}
+                        </MKTypography>
+                      )}
+                    </Box>
+                  )}
+                />
+
+                <Button type="submit" variant="contained" sx={{ color: "#fff" }}>
+                  Submit Feedback
+                </Button>
+              </>
+            )}
           </Box>
         </Modal>
       </MKBox>
