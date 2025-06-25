@@ -25,7 +25,7 @@ import footerRoutes from "footer.routes";
 // Images
 import aboutImage from "assets/images/bg-about-us.jpg";
 import missionImage from "assets/images/bg-presentation.jpg";
-import visionImage from "assets/images/lehonghai.jpg";
+import visionImage from "assets/images/ivana-squares.jpg";
 
 function AboutUs() {
   const routes = getRoutes();
