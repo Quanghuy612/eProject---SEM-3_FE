@@ -10,12 +10,10 @@ import { keyframes } from "@mui/system";
 // Material Kit 2 React components
 import MKBox from "components/User/MKBox";
 import MKTypography from "components/User/MKTypography";
-// Material Kit 2 React examples
+// Material Kit 2 React footerRoutes
 import DefaultNavbar from "examples/User/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/User/Footers/DefaultFooter";
 // Routes
 import getRoutes from "routes";
-import footerRoutes from "footer.routes";
 // Images
 import contactBg from "assets/images/bg2.jpg";
 import teamMeeting from "assets/images/bg2.jpg";
@@ -457,10 +455,6 @@ function ContactUs() {
             </MKBox>
           </Grid>
         </Grid>
-      </MKBox>
-
-      <MKBox pt={6} px={1} mt={6} bgColor="rgba(26, 26, 46, 0.9)">
-        <DefaultFooter content={footerRoutes} dark />
       </MKBox>
     </>
   );

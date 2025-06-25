@@ -33,9 +33,6 @@ function Transactions() {
 
   return (
     <>
-      <MKBox position="fixed" top="0.5rem" width="100%" zIndex={10}>
-        <DefaultNavbar routes={routes} />
-      </MKBox>
       <MKBox
         minHeight="100vh"
         width="100%"
@@ -46,11 +43,11 @@ function Transactions() {
               rgba(gradients.dark.state, 0.6)
             )}, url(${bgImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          display: "grid",
-          placeItems: "center",
         }}
       >
+        <MKBox width="100%" zIndex={10} paddingTop={2}>
+          <DefaultNavbar relative routes={routes} light />
+        </MKBox>
         <Box
           sx={{
             bgcolor: "background.paper",

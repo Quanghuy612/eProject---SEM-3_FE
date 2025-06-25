@@ -120,9 +120,6 @@ function SpecialRechares() {
 
   return (
     <>
-      <MKBox position="fixed" top="0.5rem" width="100%" zIndex={10}>
-        <DefaultNavbar routes={routes} />
-      </MKBox>
       <MKBox
         minHeight="100vh"
         width="100%"
@@ -134,11 +131,11 @@ function SpecialRechares() {
             )}, url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          display: "grid",
-          placeItems: "center",
-          position: "relative",
         }}
       >
+        <MKBox width="100%" zIndex={10} paddingTop={2}>
+          <DefaultNavbar relative routes={routes} light />
+        </MKBox>
         {virtualOtp && (
           <Box
             sx={{
