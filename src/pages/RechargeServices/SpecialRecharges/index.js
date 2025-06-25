@@ -106,7 +106,7 @@ function SpecialRechares() {
     if (selectedMethod == "postpaying") {
       completeTransaction();
     } else {
-      setTransaction(res.data);
+      setTransaction(res.data.data);
       setStep(6);
     }
   };
@@ -334,22 +334,24 @@ function SpecialRechares() {
           )}
           {step === 6 && (
             <>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                minHeight="300px"
-                textAlign="center"
-              >
-                <Typography variant="h4" mt={2}>
-                  {transaction?.price}
+              <Box display="flex" flexDirection="column" justifyContent="center" minHeight="300px">
+                <Typography variant="h4" fontWeight="bold">
+                  Transaction detail
                 </Typography>
-                <Typography variant="h5" mt={1}>
-                  Thank you for choosing our service.
+                <Typography>
+                  <strong>Phone Number:</strong> {transaction?.phoneNumber}
                 </Typography>
-                <Typography variant="h6" color="text.secondary" mt={3}>
-                  Redirecting to home...
+                <Typography>
+                  <strong>Transaction Number:</strong> {transaction?.transactionId}
+                </Typography>
+                <Typography>
+                  <strong>Total:</strong> {transaction?.totalAmount}$
+                </Typography>
+                <Typography>
+                  <strong>Payment method:</strong> {transaction?.paymentMethod}
+                </Typography>
+                <Typography>
+                  <strong>Date:</strong> {transaction?.transactionDate}
                 </Typography>
               </Box>
               <Box mt={3}>

@@ -109,8 +109,12 @@ function SpecialServices() {
       toast.error("Error while confirm payment");
       return;
     }
-    setTransaction(res.data.data);
-    setStep(6);
+    if (selectedMethod == "postpaying") {
+      completeTransaction();
+    } else {
+      setTransaction(res.data.data);
+      setStep(6);
+    }
   };
 
   const completeTransaction = () => {

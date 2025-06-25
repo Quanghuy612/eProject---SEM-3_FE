@@ -16,15 +16,22 @@ import useAdminStore from "stores/adminStore";
 import { exportToExcel } from "utils/exportExcel";
 
 import { useEffect, useState } from "react";
+import { Switch, TextField } from "@mui/material";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css";
 
 function Bill() {
   const getBills = useAdminStore((state) => state.getBills);
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
   const [excel, setExcel] = useState(null);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [showUnpaid, setShowUnpaid] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getBills();
+      const isPaid = showUnpaid ? false : undefined;
+      const result = await getBills({ fromDate, toDate, isPaid });
       if (result?.data) {
         setExcel(result.data);
         const { columns, rows } = billsTableData({ param: result.data });
@@ -32,7 +39,7 @@ function Bill() {
       }
     };
     fetchData();
-  }, []);
+  }, [fromDate, toDate, showUnpaid]);
 
   return (
     <DashboardLayout>
@@ -47,14 +54,66 @@ function Bill() {
                 py={3}
                 px={2}
                 variant="gradient"
-                bgColor="info"
+                bgColor="light"
                 borderRadius="lg"
                 coloredShadow="info"
                 sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
               >
-                <MDTypography variant="h6" color="white">
+                <MDTypography variant="h6" color="black" sx={{ flexGrow: 1 }}>
                   Bills
                 </MDTypography>
+                <Flatpickr
+                  value={fromDate}
+                  options={{
+                    dateFormat: "d/m/Y",
+                  }}
+                  onChange={([date]) => setFromDate(date)}
+                  render={({ value, ...props }, ref) => (
+                    <TextField
+                      {...props}
+                      inputRef={ref}
+                      value={value}
+                      onChange={() => {}}
+                      label="From Date"
+                      placeholder="From Date"
+                      variant="outlined"
+                      sx={{ color: "black", mr: 1 }}
+                      InputLabelProps={{ style: { color: "black" } }}
+                      InputProps={{ style: { color: "black" } }}
+                    />
+                  )}
+                />
+                <Flatpickr
+                  value={toDate}
+                  options={{
+                    dateFormat: "d/m/Y",
+                  }}
+                  onChange={([date]) => setToDate(date)}
+                  render={({ value, ...props }, ref) => (
+                    <TextField
+                      {...props}
+                      inputRef={ref}
+                      value={value}
+                      onChange={() => {}}
+                      label="To Date"
+                      placeholder="To Date"
+                      variant="outlined"
+                      sx={{ color: "black" }}
+                      InputLabelProps={{ style: { color: "black" } }}
+                      InputProps={{ style: { color: "black" } }}
+                    />
+                  )}
+                />
+                <MDTypography
+                  variant="button"
+                  fontWeight="regular"
+                  color="text"
+                  sx={{ color: "#000", ml: 1 }}
+                >
+                  Show Unpaid Bills
+                </MDTypography>
+
+                <Switch checked={showUnpaid} onChange={() => setShowUnpaid(!showUnpaid)} />
                 <Button
                   sx={{
                     backgroundColor: "#FFA000",
@@ -74,7 +133,7 @@ function Bill() {
                   table={tableData}
                   isSorted={false}
                   entriesPerPage={false}
-                  showTotalEntries={false}
+                  showTotalEntries={true}
                   noEndBorder
                 />
               </MDBox>

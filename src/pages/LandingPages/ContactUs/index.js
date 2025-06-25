@@ -16,7 +16,7 @@ import DefaultNavbar from "examples/User/Navbars/DefaultNavbar";
 import getRoutes from "routes";
 // Images
 import contactBg from "assets/images/bg2.jpg";
-import teamMeeting from "assets/images/bg2.jpg";
+import teamMeeting from "assets/images/team-2.jpg";
 
 // Icons
 import LocationOnIcon from "@mui/icons-material/LocationOn";

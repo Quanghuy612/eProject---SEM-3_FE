@@ -41,30 +41,13 @@ export default {
       name: "company",
       items: [
         { name: "about us", href: "/about-us" },
-        { name: "freebies", href: "" },
+        { name: "contact us", href: "/contact-us" },
         { name: "premium tools", href: "" },
         { name: "blog", href: "" },
       ],
     },
     {
-      name: "resources",
-      items: [
-        { name: "illustrations", href: "" },
-        { name: "bits & snippets", href: "" },
-        { name: "affiliate program", href: "" },
-      ],
-    },
-    {
-      name: "help & support",
-      items: [
-        { name: "contact us", href: "/contact-us" },
-        { name: "knowledge center", href: "" },
-        { name: "custom development", href: "" },
-        { name: "sponsorships", href: "" },
-      ],
-    },
-    {
-      name: "legal",
+      name: "Legal",
       items: [
         { name: "terms & conditions", href: "" },
         { name: "privacy policy", href: "" },

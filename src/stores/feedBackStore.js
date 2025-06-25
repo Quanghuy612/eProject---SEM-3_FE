@@ -6,17 +6,21 @@ const feedBackStore = create((set) => ({
   error: null,
   data: null,
 
-  getFeedBack: async () => {
+  getFeedBack: async ({ currentPage }) => {
     set({ loading: true, error: null });
 
     try {
-      const res = await API.get("/feedback");
+      const res = await API.get("/feedback", {
+        params: {
+          currentPage,
+        },
+      });
 
       set({
         loading: false,
       });
 
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading feedback";
       set({ error: message, loading: false });

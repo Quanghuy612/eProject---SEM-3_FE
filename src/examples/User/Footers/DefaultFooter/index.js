@@ -39,11 +39,6 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import BoltIcon from "@mui/icons-material/Bolt";
 
 // Animation
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0px); }
-`;
 
 const pulse = keyframes`
   0% { transform: scale(1); }
@@ -52,7 +47,7 @@ const pulse = keyframes`
 `;
 
 function DefaultFooter({ content }) {
-  const { brand, menus, copyright } = content;
+  const { brand, menus } = content;
   return (
     <MKBox
       component="footer"
@@ -328,23 +323,6 @@ function DefaultFooter({ content }) {
                 24/7 Customer Support
               </MKTypography>
             </MKBox>
-          </Grid>
-
-          {/* Copyright */}
-          <Grid item xs={12} sx={{ textAlign: "center", mt: 4 }}>
-            <MKTypography
-              variant="body2"
-              color="white"
-              opacity={0.7}
-              sx={{
-                animation: `${float} 6s ease-in-out infinite`,
-                "&:hover": {
-                  opacity: 1,
-                },
-              }}
-            >
-              {copyright}
-            </MKTypography>
           </Grid>
         </Grid>
       </Container>

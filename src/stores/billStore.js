@@ -32,17 +32,20 @@ const billStore = create((set) => ({
     }
   },
 
-  getTransaction: async () => {
+  getTransaction: async ({ currentPage }) => {
     set({ loading: true, error: null });
-
     try {
-      const res = await API.get("/transaction/my-transactions");
+      const res = await API.get("/transaction/my-transactions", {
+        params: {
+          currentPage,
+        },
+      });
 
       set({
         loading: false,
       });
 
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading transactions";
       set({ error: message, loading: false });
