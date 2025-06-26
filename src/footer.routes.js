@@ -2,7 +2,6 @@
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 
 // Material Kit 2 React components
 import MKTypography from "components/User/MKTypography";
@@ -31,27 +30,22 @@ export default {
       icon: <GitHubIcon />,
       link: "https://github.com/creativetimofficial",
     },
-    {
-      icon: <YouTubeIcon />,
-      link: "https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w",
-    },
   ],
   menus: [
     {
-      name: "company",
+      name: "Company",
       items: [
-        { name: "about us", href: "/about-us" },
-        { name: "contact us", href: "/contact-us" },
-        { name: "premium tools", href: "" },
-        { name: "blog", href: "" },
+        { name: "About Us", href: "/about-us" },
+        { name: "Contact Us", href: "/contact-us" },
+        { name: "Blog", href: "" },
       ],
     },
     {
       name: "Legal",
       items: [
-        { name: "terms & conditions", href: "" },
-        { name: "privacy policy", href: "" },
-        { name: "licenses (EULA)", href: "" },
+        { name: "Terms & Conditions", href: "" },
+        { name: "Privacy Policy", href: "" },
+        { name: "Licenses (EULA)", href: "" },
       ],
     },
   ],

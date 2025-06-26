@@ -32,7 +32,7 @@ import MKTypography from "components/User/MKTypography";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+
 // import PaymentIcon from "@mui/icons-material/Payment";
 import SecurityIcon from "@mui/icons-material/Security";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
@@ -175,32 +175,6 @@ function DefaultFooter({ content }) {
               >
                 <InstagramIcon />
               </MKBox>
-
-              {/* LinkedIn */}
-              <MKBox
-                component="a"
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                width={40}
-                height={40}
-                borderRadius="50%"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                bgcolor="rgba(255, 255, 255, 0.1)"
-                sx={{
-                  border: "1px solid #0A66C2",
-                  color: "#0A66C2",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-3px)",
-                    bgcolor: "rgba(255, 255, 255, 0.2)",
-                    boxShadow: "0 5px 15px rgba(10, 102, 194, 0.5)",
-                  },
-                }}
-              >
-                <LinkedInIcon />
-              </MKBox>
             </MKBox>
           </Grid>
 
@@ -308,7 +282,9 @@ function DefaultFooter({ content }) {
                   mt: 1,
                 },
               }}
-            ></MKTypography>
+            >
+              Security
+            </MKTypography>
 
             <MKBox display="flex" alignItems="center" mb={2}>
               <SecurityIcon sx={{ color: "#B3CFD7", mr: 1 }} />

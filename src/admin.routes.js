@@ -9,6 +9,7 @@ import Packages from "pages/Admin/packages";
 import Users from "pages/Admin/user";
 import Profile from "pages/Admin/profile";
 import Feedback from "pages/Admin/feedback";
+import CustomerSupport from "pages/Admin/customer-support";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -63,6 +64,18 @@ const getAdminRoutes = () => {
       component: (
         <AdminPrivateRoute>
           <Packages />
+        </AdminPrivateRoute>
+      ),
+    },
+    {
+      type: "collapse",
+      name: "Customer support",
+      key: "customersupport",
+      icon: <Icon fontSize="small">feedback</Icon>,
+      route: "/admin/customer-support",
+      component: (
+        <AdminPrivateRoute>
+          <CustomerSupport />
         </AdminPrivateRoute>
       ),
     },
