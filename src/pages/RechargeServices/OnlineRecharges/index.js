@@ -14,6 +14,7 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 import { useState, useEffect, useRef } from "react";
 import onlineRechargeStore from "stores/onlineRechargeStore";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 import {
   Box,
   Button,
@@ -43,7 +44,7 @@ function OnlineRecharges() {
   const routes = getRoutes();
   const user = JSON.parse(localStorage.getItem("user"));
   const [step, setStep] = useState(1);
-  const { loading, error, data, getOnlineRecharge, getOtp, vertifyOtp, completeRecharge } =
+  const { loading, getOnlineRecharge, getOtp, vertifyOtp, completeRecharge } =
     onlineRechargeStore();
   const [selectedRecharge, setSelectedRecharge] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -78,16 +79,13 @@ function OnlineRecharges() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await getOnlineRecharge();
+      const res = await getOnlineRecharge();
+      if (res?.statusCode == 200) {
+        setTopUp(res.data);
+      }
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (data) {
-      setTopUp(data);
-    }
-  }, [data]);
 
   const selectRechargePackage = async (item) => {
     setSelectedRecharge(item);
@@ -150,6 +148,7 @@ function OnlineRecharges() {
 
   return (
     <>
+      {loading && <LoadingSpinner />}
       <MKBox
         minHeight="100vh"
         width="100%"
@@ -233,7 +232,7 @@ function OnlineRecharges() {
           }}
         >
           {/* Step 1 */}
-          {!loading && !error && step === 1 && (
+          {step === 1 && (
             <>
               <Typography variant="h5" fontWeight="bold">
                 Select Recharge Package

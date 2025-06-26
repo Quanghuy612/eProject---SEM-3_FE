@@ -24,6 +24,7 @@ import * as signalR from "@microsoft/signalr";
 import { toast } from "react-toastify";
 
 import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 
 function CustomerSupport() {
   const routes = getRoutes();
@@ -32,6 +33,11 @@ function CustomerSupport() {
   const [message, setMessage] = useState("");
   const [chatActive, setChatActive] = useState(false);
   const chatRef = useRef();
+  const MotionGridItem = motion(Grid);
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.8, x: -50 },
+    visible: { opacity: 1, scale: 1, x: 0 },
+  };
 
   useEffect(() => {
     if (chatRef.current) {
@@ -133,7 +139,16 @@ function CustomerSupport() {
           justifyContent="center"
           sx={{ height: "100%", zIndex: 1, marginTop: 1 }}
         >
-          <Grid item xs={12} lg={5} sx={{ display: "flex", justifyContent: "center" }}>
+          <MotionGridItem
+            item
+            xs={12}
+            lg={5}
+            sx={{ display: "flex", justifyContent: "center" }}
+            variants={itemVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 1 * 0.15, duration: 0.5, ease: "easeOut" }}
+          >
             <MKBox
               width="90%"
               borderRadius="xl"
@@ -333,7 +348,7 @@ function CustomerSupport() {
                 </Grid>
               </Grid>
             </MKBox>
-          </Grid>
+          </MotionGridItem>
 
           <Grid
             item

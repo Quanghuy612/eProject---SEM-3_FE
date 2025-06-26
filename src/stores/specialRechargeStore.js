@@ -58,7 +58,7 @@ const specialRechargeStore = create((set) => ({
 
     try {
       const res = await API.post("/bill/special-recharge-bill", data);
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error vertify otp";
       toast.error(message);

@@ -7,13 +7,17 @@
 // @mui material components
 import Grid from "@mui/material/Grid";
 import { keyframes } from "@mui/system";
+
 // Material Kit 2 React components
 import MKBox from "components/User/MKBox";
 import MKTypography from "components/User/MKTypography";
+
 // Material Kit 2 React footerRoutes
 import DefaultNavbar from "examples/User/Navbars/DefaultNavbar";
+
 // Routes
 import getRoutes from "routes";
+
 // Images
 import contactBg from "assets/images/bg2.jpg";
 import teamMeeting from "assets/images/team-2.jpg";
@@ -28,6 +32,8 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import { motion } from "framer-motion";
 
 // Animation
 const float = keyframes`
@@ -44,6 +50,12 @@ const pulse = keyframes`
 
 function ContactUs() {
   const routes = getRoutes();
+  const MotionGridItem = motion(Grid);
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.8, x: -50 },
+    visible: { opacity: 1, scale: 1, x: 0 },
+  };
+
   return (
     <>
       <MKBox width="100%" zIndex={10} position="fixed">
@@ -355,11 +367,15 @@ function ContactUs() {
           </Grid>
 
           {/* Right Side - Content Replacement for Map */}
-          <Grid
+          <MotionGridItem
             item
             xs={12}
             lg={5}
             sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            variants={itemVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 1 * 0.15, duration: 0.5, ease: "easeOut" }}
           >
             <MKBox
               width="90%"
@@ -417,8 +433,8 @@ function ContactUs() {
 
               <MKBox textAlign="center" mt={3}>
                 {/* <MKTypography variant="h6" color="#B3CFD7" fontWeight="bold">
-                  SUBSCRIBE TO OUR NEWSLETTER
-                </MKTypography> */}
+                SUBSCRIBE TO OUR NEWSLETTER
+              </MKTypography> */}
                 <MKBox component="form" display="flex" justifyContent="center" mt={2}>
                   <input
                     type="email"
@@ -453,7 +469,7 @@ function ContactUs() {
                 </MKBox>
               </MKBox>
             </MKBox>
-          </Grid>
+          </MotionGridItem>
         </Grid>
       </MKBox>
     </>

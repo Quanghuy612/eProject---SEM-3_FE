@@ -52,7 +52,7 @@ const useAdminStore = create((set) => ({
   },
 
   caculateService: async () => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.get("/admin/caculate-services");
@@ -63,12 +63,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return null;
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   getBills: async ({ fromDate, toDate, isPaid }) => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.get("/admin/bills", {
@@ -81,12 +81,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return null;
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   getTransactions: async ({ fromDate, toDate }) => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.get("/admin/transactions", {
@@ -98,12 +98,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return null;
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   getPackages: async () => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.get("/admin/packages");
@@ -113,12 +113,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return null;
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   getUsers: async () => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.get("/admin/users");
@@ -128,12 +128,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return null;
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   getFeedbacks: async () => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.get("/admin/feedbacks");
@@ -143,12 +143,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return null;
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   handleFeedback: async (feedbackId, action) => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.patch(`/admin/feedbacks/${feedbackId}/${action}`);
@@ -159,12 +159,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return { success: false };
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   togglePackage: async (packageId, type, enable) => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const action = enable ? "enable" : "disable";
@@ -177,12 +177,12 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return { success: false };
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 
   addPackage: async (data) => {
-    set({ loadingServices: true });
+    set({ loading: true });
 
     try {
       const res = await API.post(`/admin/packages`, data);
@@ -194,7 +194,7 @@ const useAdminStore = create((set) => ({
       toast.error(message);
       return { success: false };
     } finally {
-      set({ loadingServices: false });
+      set({ loading: false });
     }
   },
 }));

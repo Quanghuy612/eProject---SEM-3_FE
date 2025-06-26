@@ -56,97 +56,106 @@ function SignIn() {
 
   return (
     <>
-      <DefaultNavbar routes={routes} transparent light />
       <MKBox
-        position="absolute"
-        top={0}
-        left={0}
-        zIndex={1}
-        width="100%"
         minHeight="100vh"
+        width="100%"
         sx={{
-          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
-            )}, url(${bgImage})`,
+          backgroundImage: () =>
+            `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          position: "relative",
+          overflow: "hidden",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(circle at 30% 50%, rgba(179, 207, 215, 0.1) 0%, transparent 70%)",
+            zIndex: 0,
+          },
         }}
-      />
-      <MKBox px={1} mx="auto" position="relative" zIndex={2}>
-        <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
-          <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
-            <Card>
-              <MKBox
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-                mx={2}
-                mt={-3}
-                p={2}
-                mb={1}
-                textAlign="center"
-              >
-                <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-                  Sign in
-                </MKTypography>
-              </MKBox>
-              <MKBox pt={4} pb={3} px={3}>
-                <MKBox component="form" role="form" autoComplete="off" onSubmit={handleSubmit}>
-                  <MKBox mb={2}>
-                    <MKInput
-                      type="text"
-                      label="Username"
-                      fullWidth
-                      autoComplete="off"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </MKBox>
-                  <MKBox mb={2}>
-                    <MKInput
-                      type="password"
-                      label="Password"
-                      fullWidth
-                      autoComplete="off"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </MKBox>
-                  <MKBox mt={4} mb={1}>
-                    <MKButton
-                      variant="gradient"
-                      color="info"
-                      fullWidth
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {loading ? "Signing in..." : "Sign In"}
-                    </MKButton>
-                  </MKBox>
-                  <MKBox mt={3} mb={1} textAlign="center">
-                    <MKTypography variant="button" color="text">
-                      Don&apos;t have an account?{" "}
-                      <MKTypography
-                        component={Link}
-                        to="/authentication/sign-up"
-                        variant="button"
+      >
+        <MKBox width="100%" zIndex={10} paddingTop={2} marginBottom={6}>
+          <DefaultNavbar relative routes={routes} light />
+        </MKBox>
+        <MKBox px={1} mx="auto" position="relative" zIndex={2}>
+          <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
+            <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
+              <Card>
+                <MKBox
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                  mx={2}
+                  mt={-3}
+                  p={2}
+                  mb={1}
+                  textAlign="center"
+                >
+                  <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+                    Sign in
+                  </MKTypography>
+                </MKBox>
+                <MKBox pt={4} pb={3} px={3}>
+                  <MKBox component="form" role="form" autoComplete="off" onSubmit={handleSubmit}>
+                    <MKBox mb={2}>
+                      <MKInput
+                        type="text"
+                        label="Username"
+                        fullWidth
+                        autoComplete="off"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
+                    </MKBox>
+                    <MKBox mb={2}>
+                      <MKInput
+                        type="password"
+                        label="Password"
+                        fullWidth
+                        autoComplete="off"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </MKBox>
+                    <MKBox mt={4} mb={1}>
+                      <MKButton
+                        variant="gradient"
                         color="info"
-                        fontWeight="medium"
-                        textGradient
+                        fullWidth
+                        type="submit"
+                        disabled={loading}
                       >
-                        Sign up
+                        {loading ? "Signing in..." : "Sign In"}
+                      </MKButton>
+                    </MKBox>
+                    <MKBox mt={3} mb={1} textAlign="center">
+                      <MKTypography variant="button" color="text">
+                        Don&apos;t have an account?{" "}
+                        <MKTypography
+                          component={Link}
+                          to="/authentication/sign-up"
+                          variant="button"
+                          color="info"
+                          fontWeight="medium"
+                          textGradient
+                        >
+                          Sign up
+                        </MKTypography>
                       </MKTypography>
-                    </MKTypography>
+                    </MKBox>
                   </MKBox>
                 </MKBox>
-              </MKBox>
-            </Card>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
+        </MKBox>
       </MKBox>
     </>
   );

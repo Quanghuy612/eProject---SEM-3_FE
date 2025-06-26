@@ -19,9 +19,11 @@ import { useEffect, useState } from "react";
 import { Switch, TextField } from "@mui/material";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 function Bill() {
   const getBills = useAdminStore((state) => state.getBills);
+  const { loading } = useAdminStore();
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
   const [excel, setExcel] = useState(null);
   const [fromDate, setFromDate] = useState("");
@@ -42,106 +44,109 @@ function Bill() {
   }, [fromDate, toDate, showUnpaid]);
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="light"
-                borderRadius="lg"
-                coloredShadow="info"
-                sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MDTypography variant="h6" color="black" sx={{ flexGrow: 1 }}>
-                  Bills
-                </MDTypography>
-                <Flatpickr
-                  value={fromDate}
-                  options={{
-                    dateFormat: "d/m/Y",
-                  }}
-                  onChange={([date]) => setFromDate(date)}
-                  render={({ value, ...props }, ref) => (
-                    <TextField
-                      {...props}
-                      inputRef={ref}
-                      value={value}
-                      onChange={() => {}}
-                      label="From Date"
-                      placeholder="From Date"
-                      variant="outlined"
-                      sx={{ color: "black", mr: 1 }}
-                      InputLabelProps={{ style: { color: "black" } }}
-                      InputProps={{ style: { color: "black" } }}
-                    />
-                  )}
-                />
-                <Flatpickr
-                  value={toDate}
-                  options={{
-                    dateFormat: "d/m/Y",
-                  }}
-                  onChange={([date]) => setToDate(date)}
-                  render={({ value, ...props }, ref) => (
-                    <TextField
-                      {...props}
-                      inputRef={ref}
-                      value={value}
-                      onChange={() => {}}
-                      label="To Date"
-                      placeholder="To Date"
-                      variant="outlined"
-                      sx={{ color: "black" }}
-                      InputLabelProps={{ style: { color: "black" } }}
-                      InputProps={{ style: { color: "black" } }}
-                    />
-                  )}
-                />
-                <MDTypography
-                  variant="button"
-                  fontWeight="regular"
-                  color="text"
-                  sx={{ color: "#000", ml: 1 }}
+    <>
+      {loading && <LoadingSpinner />}
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox pt={6} pb={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="light"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
                 >
-                  Show Unpaid Bills
-                </MDTypography>
+                  <MDTypography variant="h6" color="black" sx={{ flexGrow: 1 }}>
+                    Bills
+                  </MDTypography>
+                  <Flatpickr
+                    value={fromDate}
+                    options={{
+                      dateFormat: "d/m/Y",
+                    }}
+                    onChange={([date]) => setFromDate(date)}
+                    render={({ value, ...props }, ref) => (
+                      <TextField
+                        {...props}
+                        inputRef={ref}
+                        value={value}
+                        onChange={() => {}}
+                        label="From Date"
+                        placeholder="From Date"
+                        variant="outlined"
+                        sx={{ color: "black", mr: 1 }}
+                        InputLabelProps={{ style: { color: "black" } }}
+                        InputProps={{ style: { color: "black" } }}
+                      />
+                    )}
+                  />
+                  <Flatpickr
+                    value={toDate}
+                    options={{
+                      dateFormat: "d/m/Y",
+                    }}
+                    onChange={([date]) => setToDate(date)}
+                    render={({ value, ...props }, ref) => (
+                      <TextField
+                        {...props}
+                        inputRef={ref}
+                        value={value}
+                        onChange={() => {}}
+                        label="To Date"
+                        placeholder="To Date"
+                        variant="outlined"
+                        sx={{ color: "black" }}
+                        InputLabelProps={{ style: { color: "black" } }}
+                        InputProps={{ style: { color: "black" } }}
+                      />
+                    )}
+                  />
+                  <MDTypography
+                    variant="button"
+                    fontWeight="regular"
+                    color="text"
+                    sx={{ color: "#000", ml: 1 }}
+                  >
+                    Show Unpaid Bills
+                  </MDTypography>
 
-                <Switch checked={showUnpaid} onChange={() => setShowUnpaid(!showUnpaid)} />
-                <Button
-                  sx={{
-                    backgroundColor: "#FFA000",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#FF8F00",
-                      opacity: 0.9,
-                    },
-                  }}
-                  onClick={() => exportToExcel(excel, "Bills.xlsx")}
-                >
-                  Export Excel
-                </Button>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={tableData}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={true}
-                  noEndBorder
-                />
-              </MDBox>
-            </Card>
+                  <Switch checked={showUnpaid} onChange={() => setShowUnpaid(!showUnpaid)} />
+                  <Button
+                    sx={{
+                      backgroundColor: "#FFA000",
+                      color: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#FF8F00",
+                        opacity: 0.9,
+                      },
+                    }}
+                    onClick={() => exportToExcel(excel, "Bills.xlsx")}
+                  >
+                    Export Excel
+                  </Button>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={tableData}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                    noEndBorder
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </MDBox>
-    </DashboardLayout>
+        </MDBox>
+      </DashboardLayout>
+    </>
   );
 }
 

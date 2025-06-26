@@ -1,13 +1,12 @@
 import { create } from "zustand";
 import API from "api/api";
+import { toast } from "react-toastify";
 
 const feedBackStore = create((set) => ({
   loading: false,
-  error: null,
-  data: null,
 
   getFeedBack: async ({ currentPage }) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.get("/feedback", {
@@ -15,36 +14,28 @@ const feedBackStore = create((set) => ({
           currentPage,
         },
       });
-
-      set({
-        loading: false,
-      });
-
       return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading feedback";
-      set({ error: message, loading: false });
-
-      return err;
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 
   createFeedBack: async (data) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.post("/feedback", data);
-
-      set({
-        loading: false,
-      });
-
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error creating feedback";
-      set({ error: message, loading: false });
-
-      return err;
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 }));

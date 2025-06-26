@@ -5,6 +5,7 @@
 */
 
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 // @mui material components
 import Container from "@mui/material/Container";
@@ -33,13 +34,21 @@ import bgImage from "assets/images/city-profile.jpg";
 function Presentation() {
   const navigate = useNavigate();
   const routes = getRoutes();
+  const MotionBox = motion(MKBox);
+  const MotionGridItem = motion(Grid);
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.8, x: -50 },
+    visible: { opacity: 1, scale: 1, x: 0 },
+  };
+  const zoomVariants = {
+    hidden: { opacity: 0, scale: 0.6 },
+    visible: { opacity: 1, scale: 1 },
+  };
 
   // Navigation handlers
   const handleTopUpNow = () => navigate("/services/online-recharge");
-  const handleHowItWorks = () => navigate("/contact-us");
-  // const handleLearnMore = () => navigate("/features");
+  const handleHowItWorks = () => navigate("/about-us");
   const handleSignUp = () => navigate("/authentication/sign-up");
-  const handleLogin = () => navigate("/authentication/sign-in");
 
   // Data for network providers
   const networks = [
@@ -90,21 +99,16 @@ function Presentation() {
 
   return (
     <>
-      <MKBox position="fixed" width="100%" zIndex={10}>
-        <DefaultNavbar
-          routes={routes}
-          sticky
-          transparent
-          light
-          actionButton={{
-            type: "internal",
-            route: "/login",
-            label: "Login",
-            color: "info",
-            onClick: handleLogin,
-          }}
-        />
-      </MKBox>
+      <MotionBox
+        position="fixed"
+        width="100%"
+        zIndex={10}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <DefaultNavbar routes={routes} sticky transparent light />
+      </MotionBox>
 
       {/* Hero Section */}
       <MKBox
@@ -131,7 +135,14 @@ function Presentation() {
       >
         <Container>
           <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} lg={6}>
+            <MotionGridItem
+              item
+              xs={12}
+              lg={6}
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               <MKTypography
                 variant="h1"
                 color="white"
@@ -180,7 +191,7 @@ function Presentation() {
                   }}
                 >
                   <Icon sx={{ mr: 1 }}>flash_on</Icon>
-                  Top Up Now
+                  Try Recharge
                 </MKButton>
 
                 <MKButton
@@ -226,7 +237,7 @@ function Presentation() {
                   </MKTypography>
                 </Box>
               </Box>
-            </Grid>
+            </MotionGridItem>
           </Grid>
         </Container>
       </MKBox>
@@ -273,7 +284,17 @@ function Presentation() {
 
           <Grid container spacing={3} justifyContent="center">
             {networks.map((network, index) => (
-              <Grid item xs={6} sm={4} md={2.4} key={index}>
+              <MotionGridItem
+                item
+                xs={6}
+                sm={4}
+                md={2.4}
+                key={index}
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.15, duration: 0.5, ease: "easeOut" }}
+              >
                 <MKBox
                   display="flex"
                   flexDirection="column"
@@ -281,9 +302,9 @@ function Presentation() {
                   p={3}
                   sx={{
                     borderRadius: 2,
-                    transition: "all 0.3s ease",
                     backgroundColor: "white",
                     boxShadow: 2,
+                    transition: "all 0.3s ease",
                     "&:hover": {
                       transform: "translateY(-5px)",
                       boxShadow: 4,
@@ -310,7 +331,7 @@ function Presentation() {
                     {network.discount} Cashback
                   </MKTypography>
                 </MKBox>
-              </Grid>
+              </MotionGridItem>
             ))}
           </Grid>
         </Container>
@@ -348,7 +369,16 @@ function Presentation() {
 
             <Grid container spacing={4}>
               {features.map((feature, index) => (
-                <Grid item xs={12} md={4} key={index}>
+                <MotionGridItem
+                  item
+                  xs={12}
+                  md={4}
+                  key={index}
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: index * 0.15, duration: 0.5, ease: "easeOut" }}
+                >
                   <FilledInfoCard
                     variant="gradient"
                     color={feature.color}
@@ -371,7 +401,7 @@ function Presentation() {
                       },
                     }}
                   />
-                </Grid>
+                </MotionGridItem>
               ))}
             </Grid>
           </Container>
@@ -443,7 +473,17 @@ function Presentation() {
 
           <Grid container spacing={2} justifyContent="center">
             {topupAmounts.map((item, index) => (
-              <Grid item xs={6} sm={4} md={2} key={index}>
+              <MotionGridItem
+                item
+                xs={6}
+                sm={4}
+                md={2}
+                key={index}
+                variants={zoomVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.15, duration: 0.4, ease: "easeOut" }}
+              >
                 <MKBox
                   textAlign="center"
                   p={3}
@@ -467,7 +507,7 @@ function Presentation() {
                     +${item.bonus.toLocaleString()} cashback
                   </MKTypography>
                 </MKBox>
-              </Grid>
+              </MotionGridItem>
             ))}
           </Grid>
         </Container>

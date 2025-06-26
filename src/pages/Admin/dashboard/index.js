@@ -12,6 +12,7 @@ import ReportsBarChart from "examples/Admin/Charts/BarCharts/ReportsBarChart";
 
 import useAdminStore from "stores/adminStore";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 function prepareChartDatasets(data) {
   const labels = data.map((item) => item.date);
@@ -47,6 +48,7 @@ function Dashboard() {
   const [total, setTotal] = useState(null);
   const caculateTotal = useAdminStore((state) => state.caculateTotal);
   const caculateService = useAdminStore((state) => state.caculateService);
+  const { loading } = useAdminStore();
   const [topUpChart, setTopUpChart] = useState(null);
   const [rechargeChart, setRechargeChart] = useState(null);
   const [serviceChart, setServiceChart] = useState(null);
@@ -68,105 +70,108 @@ function Dashboard() {
   }, []);
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox py={3}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="warning"
-                icon="person_add"
-                title="Today's New Users"
-                count={total?.newUsers ?? 0}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
+    <>
+      {loading && <LoadingSpinner />}
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox py={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <ComplexStatisticsCard
+                  color="warning"
+                  icon="person_add"
+                  title="Today's New Users"
+                  count={total?.newUsers ?? 0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <ComplexStatisticsCard
+                  color="primary"
+                  icon="format_list_bulleted"
+                  title="Today's Feedbacks"
+                  count={total?.feedbacks ?? 0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <ComplexStatisticsCard
+                  icon="leaderboard"
+                  title="Today's Transactions"
+                  count={total?.transactionCount ?? 0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <ComplexStatisticsCard
+                  color="success"
+                  icon="store"
+                  title="Revenue"
+                  count={`$ ${total?.totalRevenue ?? 0}`}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </MDBox>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="format_list_bulleted"
-                title="Today's Feedbacks"
-                count={total?.feedbacks ?? 0}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Transactions"
-                count={total?.transactionCount ?? 0}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
+          <MDBox mt={4.5}>
+            {topUpChart && (
+              <ReportsBarChart
                 color="success"
-                icon="store"
-                title="Revenue"
-                count={total?.totalRevenue ?? 0}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
+                title="Top Up Usage"
+                description="TopUps used this week"
+                date="Updated just now"
+                chart={topUpChart}
               />
-            </MDBox>
-          </Grid>
-        </Grid>
-        <MDBox mt={4.5}>
-          {topUpChart && (
-            <ReportsBarChart
-              color="success"
-              title="Top Up Usage"
-              description="TopUps used this week"
-              date="Updated just now"
-              chart={topUpChart}
-            />
-          )}
+            )}
+          </MDBox>
+          <MDBox mt={5.5}>
+            {rechargeChart && (
+              <ReportsBarChart
+                color="warning"
+                title="Special Recharge Usage"
+                description="Special Recharges this week"
+                date="Updated just now"
+                chart={rechargeChart}
+              />
+            )}
+          </MDBox>
+          <MDBox mt={5.5}>
+            {serviceChart && (
+              <ReportsBarChart
+                color="info"
+                title="Special Service Usage"
+                description="Special Services this week"
+                date="Updated just now"
+                chart={serviceChart}
+              />
+            )}
+          </MDBox>
         </MDBox>
-        <MDBox mt={5.5}>
-          {rechargeChart && (
-            <ReportsBarChart
-              color="warning"
-              title="Special Recharge Usage"
-              description="Special Recharges this week"
-              date="Updated just now"
-              chart={rechargeChart}
-            />
-          )}
-        </MDBox>
-        <MDBox mt={5.5}>
-          {serviceChart && (
-            <ReportsBarChart
-              color="info"
-              title="Special Service Usage"
-              description="Special Services this week"
-              date="Updated just now"
-              chart={serviceChart}
-            />
-          )}
-        </MDBox>
-      </MDBox>
-    </DashboardLayout>
+      </DashboardLayout>
+    </>
   );
 }
 

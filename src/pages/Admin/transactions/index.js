@@ -19,9 +19,11 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 function Transactions() {
   const getTransactions = useAdminStore((state) => state.getTransactions);
+  const { loading } = useAdminStore();
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
@@ -40,96 +42,99 @@ function Transactions() {
   }, [fromDate, toDate]);
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="light"
-                borderRadius="lg"
-                coloredShadow="info"
-                sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MDTypography variant="h6" color="black" sx={{ flexGrow: 1 }}>
-                  Transactions
-                </MDTypography>
-                <Flatpickr
-                  value={fromDate}
-                  options={{
-                    dateFormat: "d/m/Y",
-                  }}
-                  onChange={([date]) => setFromDate(date)}
-                  render={({ value, ...props }, ref) => (
-                    <TextField
-                      {...props}
-                      inputRef={ref}
-                      value={value}
-                      onChange={() => {}}
-                      label="From Date"
-                      placeholder="From Date"
-                      variant="outlined"
-                      sx={{ color: "black", mr: 1 }}
-                      InputLabelProps={{ style: { color: "black" } }}
-                      InputProps={{ style: { color: "black" } }}
-                    />
-                  )}
-                />
-                <Flatpickr
-                  value={toDate}
-                  options={{
-                    dateFormat: "d/m/Y",
-                  }}
-                  onChange={([date]) => setToDate(date)}
-                  render={({ value, ...props }, ref) => (
-                    <TextField
-                      {...props}
-                      inputRef={ref}
-                      value={value}
-                      onChange={() => {}}
-                      label="To Date"
-                      placeholder="To Date"
-                      variant="outlined"
-                      sx={{ color: "black", mr: 1 }}
-                      InputLabelProps={{ style: { color: "black" } }}
-                      InputProps={{ style: { color: "black" } }}
-                    />
-                  )}
-                />
-                <Button
-                  sx={{
-                    backgroundColor: "#FFA000",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#FF8F00",
-                      opacity: 0.9,
-                    },
-                  }}
-                  onClick={() => exportToExcel(excel, "Bills.xlsx")}
+    <>
+      {loading && <LoadingSpinner />}
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox pt={6} pb={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="light"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
                 >
-                  Export Excel
-                </Button>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={tableData}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={true}
-                  noEndBorder
-                />
-              </MDBox>
-            </Card>
+                  <MDTypography variant="h6" color="black" sx={{ flexGrow: 1 }}>
+                    Transactions
+                  </MDTypography>
+                  <Flatpickr
+                    value={fromDate}
+                    options={{
+                      dateFormat: "d/m/Y",
+                    }}
+                    onChange={([date]) => setFromDate(date)}
+                    render={({ value, ...props }, ref) => (
+                      <TextField
+                        {...props}
+                        inputRef={ref}
+                        value={value}
+                        onChange={() => {}}
+                        label="From Date"
+                        placeholder="From Date"
+                        variant="outlined"
+                        sx={{ color: "black", mr: 1 }}
+                        InputLabelProps={{ style: { color: "black" } }}
+                        InputProps={{ style: { color: "black" } }}
+                      />
+                    )}
+                  />
+                  <Flatpickr
+                    value={toDate}
+                    options={{
+                      dateFormat: "d/m/Y",
+                    }}
+                    onChange={([date]) => setToDate(date)}
+                    render={({ value, ...props }, ref) => (
+                      <TextField
+                        {...props}
+                        inputRef={ref}
+                        value={value}
+                        onChange={() => {}}
+                        label="To Date"
+                        placeholder="To Date"
+                        variant="outlined"
+                        sx={{ color: "black", mr: 1 }}
+                        InputLabelProps={{ style: { color: "black" } }}
+                        InputProps={{ style: { color: "black" } }}
+                      />
+                    )}
+                  />
+                  <Button
+                    sx={{
+                      backgroundColor: "#FFA000",
+                      color: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#FF8F00",
+                        opacity: 0.9,
+                      },
+                    }}
+                    onClick={() => exportToExcel(excel, "Bills.xlsx")}
+                  >
+                    Export Excel
+                  </Button>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={tableData}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                    noEndBorder
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </MDBox>
-    </DashboardLayout>
+        </MDBox>
+      </DashboardLayout>
+    </>
   );
 }
 
