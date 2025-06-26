@@ -15,9 +15,21 @@ import getRoutes from "routes";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import billStore from "stores/billStore";
 import React, { useEffect, useState } from "react";
-import { Typography, Card, CardHeader, CardContent, CardActions, Pagination } from "@mui/material";
+import {
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Pagination,
+  TextField,
+} from "@mui/material";
 import transactionsTableData from "./data/transactionsTableData";
 import DataTable from "examples/Admin/Tables/DataTable";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css";
+import IconButton from "@mui/material/IconButton";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 function Transactions() {
   const { getTransaction } = billStore();
@@ -26,17 +38,24 @@ function Transactions() {
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   const fetchData = async () => {
-    const res = await getTransaction({ currentPage });
-    const { columns, rows } = transactionsTableData({ param: res.data.data });
+    const res = await getTransaction({ fromDate, toDate, currentPage });
+    const { columns, rows } = transactionsTableData({ param: res.data?.data });
     setTotalItems(Math.ceil(res.data.totalItems / pageSize));
     setTableData({ columns, rows });
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fromDate, toDate, currentPage]);
+
+  const resetFilters = () => {
+    setFromDate(null);
+    setToDate(null);
+  };
 
   return (
     <>
@@ -95,6 +114,50 @@ function Transactions() {
                   <Typography variant="h4" sx={{ flexGrow: 1 }}>
                     Your Transactions
                   </Typography>
+                  <IconButton
+                    color="info"
+                    onClick={resetFilters}
+                    title="Reset Filters"
+                    aria-label="reset filters"
+                  >
+                    <RestartAltIcon />
+                  </IconButton>
+                  <Flatpickr
+                    value={fromDate}
+                    options={{
+                      dateFormat: "d/m/Y",
+                    }}
+                    onChange={([date]) => setFromDate(date)}
+                    render={({ value, ...props }, ref) => (
+                      <TextField
+                        {...props}
+                        inputRef={ref}
+                        value={value}
+                        onChange={() => {}}
+                        label="From Date"
+                        placeholder="From Date"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                  <Flatpickr
+                    value={toDate}
+                    options={{
+                      dateFormat: "d/m/Y",
+                    }}
+                    onChange={([date]) => setToDate(date)}
+                    render={({ value, ...props }, ref) => (
+                      <TextField
+                        {...props}
+                        inputRef={ref}
+                        value={value}
+                        onChange={() => {}}
+                        label="To Date"
+                        placeholder="To Date"
+                        variant="outlined"
+                      />
+                    )}
+                  />
                 </MKBox>
               }
             />

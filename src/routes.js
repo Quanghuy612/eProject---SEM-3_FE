@@ -18,6 +18,7 @@ import FeedBacks from "pages/FeedBacks";
 import Bills from "pages/Bills";
 import Transactions from "pages/Transactions";
 import LogOut from "pages/LandingPages/LogOut";
+import CustomerSupport from "pages/LandingPages/CustomerSupport";
 
 import { isAuthenticated } from "utils/auth";
 
@@ -38,16 +39,41 @@ const getRoutes = () => {
       component: <AboutUs />,
     },
     {
+      name: "feedbacks",
+      icon: <ContactMailIcon />,
+      route: "/feedback",
+      component: <FeedBacks />,
+    },
+    {
       name: "contact us",
       icon: <InfoIcon />,
       route: "/contact-us",
       component: <ContactUs />,
     },
     {
-      name: "feedbacks",
-      icon: <ContactMailIcon />,
-      route: "/feedback",
-      component: <FeedBacks />,
+      name: "customer care",
+      icon: <Icon>support</Icon>,
+      columns: 1,
+      rowsPerColumn: 2,
+      collapse: [
+        {
+          name: "support",
+          collapse: [
+            {
+              name: "customer support",
+              icon: <InfoIcon />,
+              route: "/customer-support",
+              component: <CustomerSupport />,
+            },
+            {
+              name: "feedbacks",
+              icon: <ContactMailIcon />,
+              route: "/feedback",
+              component: <FeedBacks />,
+            },
+          ],
+        },
+      ],
     },
     loggedIn && {
       name: "other services",

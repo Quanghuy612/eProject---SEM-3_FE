@@ -32,11 +32,13 @@ const billStore = create((set) => ({
     }
   },
 
-  getTransaction: async ({ currentPage }) => {
+  getTransaction: async ({ fromDate, toDate, currentPage }) => {
     set({ loading: true, error: null });
     try {
       const res = await API.get("/transaction/my-transactions", {
         params: {
+          fromDate,
+          toDate,
           currentPage,
         },
       });

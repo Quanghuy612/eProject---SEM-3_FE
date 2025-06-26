@@ -1,29 +1,30 @@
 import { create } from "zustand";
 import API from "api/api";
+import { toast } from "react-toastify";
 
 const onlineRechargeStore = create((set) => ({
   loading: false,
-  error: null,
   data: null,
 
   getOnlineRecharge: async () => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.get("/recharge/online-recharge");
 
       set({
         data: res.data.data,
-        loading: false,
       });
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading online recharges";
-      set({ error: message, loading: false });
+      toast.error(message);
+    } finally {
+      set({ loading: false });
     }
   },
 
   getOtp: async (Phone) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.post("/recharge/get-otp", { Phone });
@@ -36,47 +37,40 @@ const onlineRechargeStore = create((set) => ({
       return otpData;
     } catch (err) {
       const message = err?.response?.data?.message || "Error getting otp";
-      set({ error: message, loading: false });
-
+      toast.error(message);
       return null;
+    } finally {
+      set({ loading: false });
     }
   },
 
   vertifyOtp: async (Phone, otp) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.post("/recharge/vertify-otp", { Phone: Phone, Otp: otp });
-
-      set({
-        loading: false,
-      });
-
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error vertify otp";
-      set({ error: message, loading: false });
-
-      return err;
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 
   completeRecharge: async (data) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.post("/bill/guest-pay-bills", data);
-
-      set({
-        loading: false,
-      });
-
-      return res;
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error vertify otp";
-      set({ error: message, loading: false });
-
-      return err;
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 }));

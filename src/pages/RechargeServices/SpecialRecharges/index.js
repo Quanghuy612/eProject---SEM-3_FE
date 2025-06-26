@@ -12,7 +12,7 @@ import getRoutes from "routes";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import specialRechargeStore from "stores/specialRechargeStore";
 import {
   Box,
@@ -24,10 +24,14 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  Divider,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import MKButton from "components/User/MKButton";
 
 const paymentOptions = [
   { id: "card", label: "Credit / Debit Card" },
@@ -41,7 +45,7 @@ function SpecialRechares() {
   const routes = getRoutes();
   const user = JSON.parse(localStorage.getItem("user"));
   const [step, setStep] = useState(1);
-  const { loading, error, data, getSpecialRecharge, getOtp, vertifyOtp, completeRecharge } =
+  const { loading, getSpecialRecharge, getOtp, vertifyOtp, completeRecharge } =
     specialRechargeStore();
   const [selectedRecharge, setSelectedRecharge] = useState(null);
   const [otp, setOtp] = useState("");
@@ -49,40 +53,39 @@ function SpecialRechares() {
   const [topUp, setTopUp] = useState(null);
   const [transaction, setTransaction] = useState(null);
   const navigate = useNavigate();
+  const pdfRef = useRef();
+
+  const fetchData = async () => {
+    const res = await getSpecialRecharge();
+    if (res.statusCode == 200) {
+      setTopUp(res.data);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getSpecialRecharge();
-    };
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      setTopUp(data);
-    }
-  }, [data]);
-
   const selectRechargePackage = async (item) => {
     setSelectedRecharge(item);
-    if (user.PhoneNumber) {
-      console.log(user.PhoneNumber);
+    if (user?.PhoneNumber) {
       setStep(3);
-      const otpData = await getOtp(user.PhoneNumber);
+      const otpData = await getOtp(user?.PhoneNumber);
       if (otpData) {
         setVirtualOtp(otpData);
       }
     }
   };
 
-  const checkOtp = async (phoneNumber, virtualOtp) => {
-    await vertifyOtp(phoneNumber, virtualOtp);
-    if (error) {
-      toast.error(error);
-      return;
+  const checkOtp = async () => {
+    if (otp && user?.PhoneNumber) {
+      const res = await vertifyOtp(user?.PhoneNumber, otp);
+      console.log(res);
+      if (res?.statusCode == 200) {
+        setVirtualOtp("");
+        setStep(4);
+      }
     }
-    setVirtualOtp("");
-    setStep(4);
   };
 
   const [selectedMethod, setSelectedMethod] = useState("");
@@ -93,7 +96,7 @@ function SpecialRechares() {
 
   const completePayment = async () => {
     let data = {
-      PhoneNumber: user.PhoneNumber,
+      PhoneNumber: user?.PhoneNumber,
       TotalAmount: selectedRecharge.price,
       TopUpId: selectedRecharge.specialRechargeId,
       PayMentMethod: selectedMethod,
@@ -116,6 +119,28 @@ function SpecialRechares() {
     setTimeout(() => {
       navigate("/");
     }, 1500);
+  };
+
+  const handleDownloadPdf = async () => {
+    const element = pdfRef.current;
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+    });
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "a4",
+    });
+
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeight);
+    pdf.save("transaction_summary.pdf");
   };
 
   return (
@@ -192,7 +217,7 @@ function SpecialRechares() {
           }}
         >
           {/* Step 1 */}
-          {!loading && !error && step === 1 && (
+          {!loading && step === 1 && (
             <>
               <Typography variant="h5" fontWeight="bold">
                 Select Special Package
@@ -253,7 +278,7 @@ function SpecialRechares() {
                     color: "#fff",
                   }}
                   variant="contained"
-                  onClick={() => checkOtp(user.PhoneNumber, virtualOtp)}
+                  onClick={() => checkOtp(user?.PhoneNumber, virtualOtp)}
                   disabled={!otp}
                 >
                   Continue
@@ -265,59 +290,88 @@ function SpecialRechares() {
           {/* Step 4 */}
           {step === 4 && (
             <>
-              <Typography variant="h5" fontWeight="bold">
-                Confirm Recharge
-              </Typography>
-              <Typography>
-                <strong>Package:</strong> {selectedRecharge?.specialRechargeName}
-              </Typography>
-              <Typography>
-                <strong>Price:</strong> {selectedRecharge?.price}$
-              </Typography>
-              <Typography>
-                <strong>Phone Number:</strong> {user.PhoneNumber}
-              </Typography>
-              <Box display="flex" justifyContent="space-between">
-                <Button
+              <>
+                <Box
                   sx={{
-                    color: "grey",
+                    border: "1px solid #e0e0e0",
+                    borderRadius: 2,
+                    padding: 3,
+                    backgroundColor: "#fafafa",
+                    maxWidth: "100%",
+                    mt: 5,
                   }}
-                  variant="outlined"
-                  onClick={() => setStep(3)}
                 >
-                  Back
-                </Button>
-                <Button
-                  sx={{
-                    color: "#fff",
-                  }}
-                  variant="contained"
-                  onClick={() => setStep(5)}
-                >
-                  Confirm
-                </Button>
-              </Box>
+                  <Typography variant="h5" fontWeight="bold">
+                    Confirm Recharge
+                  </Typography>
+                  <Divider />
+                  <Box display="flex" justifyContent="space-between" py={1}>
+                    <Typography color="text.secondary">Package</Typography>
+                    <Typography>{selectedRecharge?.specialRechargeName}</Typography>
+                  </Box>
+                  <Box display="flex" justifyContent="space-between" py={1}>
+                    <Typography color="text.secondary">Price</Typography>
+                    <Typography>{selectedRecharge?.price}$</Typography>
+                  </Box>
+                  <Box display="flex" justifyContent="space-between" py={1}>
+                    <Typography color="text.secondary">Phone Number</Typography>
+                    <Typography>{user?.PhoneNumber}</Typography>
+                  </Box>
+                </Box>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <Button
+                    sx={{
+                      color: "grey",
+                    }}
+                    variant="outlined"
+                    onClick={() => setStep(3)}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    sx={{
+                      color: "#fff",
+                      ml: 1,
+                    }}
+                    variant="contained"
+                    onClick={() => setStep(5)}
+                  >
+                    Confirm
+                  </Button>
+                </Box>
+              </>
             </>
           )}
 
           {step === 5 && (
             <>
-              <Typography variant="h5" fontWeight="bold">
-                Select Payment Method
-              </Typography>
+              <Box
+                sx={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: 2,
+                  padding: 3,
+                  backgroundColor: "#fafafa",
+                  maxWidth: "100%",
+                  mt: 5,
+                }}
+              >
+                <Typography variant="h5" fontWeight="bold">
+                  Select Payment Method
+                </Typography>
+                <Divider />
+                <RadioGroup value={selectedMethod} onChange={handleChange}>
+                  {paymentOptions.map((option) => (
+                    <FormControlLabel
+                      key={option.id}
+                      value={option.id}
+                      control={<Radio />}
+                      label={option.label}
+                    />
+                  ))}
+                </RadioGroup>
+              </Box>
 
-              <RadioGroup value={selectedMethod} onChange={handleChange}>
-                {paymentOptions.map((option) => (
-                  <FormControlLabel
-                    key={option.id}
-                    value={option.id}
-                    control={<Radio />}
-                    label={option.label}
-                  />
-                ))}
-              </RadioGroup>
-
-              <Box mt={3}>
+              <Box display="flex" alignItems="center" justifyContent="center">
                 <Button
                   variant="contained"
                   fullWidth
@@ -327,41 +381,77 @@ function SpecialRechares() {
                     color: "#fff",
                   }}
                 >
-                  Confirm
+                  Complete
                 </Button>
               </Box>
             </>
           )}
           {step === 6 && (
             <>
-              <Box display="flex" flexDirection="column" justifyContent="center" minHeight="300px">
-                <Typography variant="h4" fontWeight="bold">
-                  Transaction detail
+              <Box
+                ref={pdfRef}
+                sx={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: 2,
+                  padding: 3,
+                  backgroundColor: "#fafafa",
+                  maxWidth: "100%",
+                  mt: 5,
+                }}
+              >
+                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                  Transaction Summary
                 </Typography>
-                <Typography>
-                  <strong>Phone Number:</strong> {transaction?.phoneNumber}
-                </Typography>
-                <Typography>
-                  <strong>Transaction Number:</strong> {transaction?.transactionId}
-                </Typography>
-                <Typography>
-                  <strong>Total:</strong> {transaction?.totalAmount}$
-                </Typography>
-                <Typography>
-                  <strong>Payment method:</strong> {transaction?.paymentMethod}
-                </Typography>
-                <Typography>
-                  <strong>Date:</strong> {transaction?.transactionDate}
-                </Typography>
+
+                <Divider sx={{ mb: 2 }} />
+
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Phone Number</Typography>
+                  <Typography>{transaction?.phoneNumber}</Typography>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Transaction ID</Typography>
+                  <Typography>{transaction?.transactionId}</Typography>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Total</Typography>
+                  <Typography fontWeight="bold">${transaction?.totalAmount}</Typography>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Payment Method</Typography>
+                  <Typography>{transaction?.paymentMethod}</Typography>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Date</Typography>
+                  <Typography>{transaction?.transactionDate}</Typography>
+                </Box>
               </Box>
-              <Box mt={3}>
+
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <MKButton
+                  variant="contained"
+                  color="success"
+                  onClick={handleDownloadPdf}
+                  sx={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                  }}
+                >
+                  Print Transaction
+                </MKButton>
                 <Button
                   variant="contained"
-                  fullWidth
                   onClick={completeTransaction}
                   disabled={!selectedMethod}
                   sx={{
                     color: "#fff",
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    ml: 1,
                   }}
                 >
                   Complete

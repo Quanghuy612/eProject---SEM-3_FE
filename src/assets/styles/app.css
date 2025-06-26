@@ -93,3 +93,27 @@ body {
     font-size: 112px;
   }
 }
+
+/* For Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #afb5b6;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #afb5b6;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #afb5b6 transparent;
+}

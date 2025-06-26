@@ -228,8 +228,6 @@ function FeedBacks() {
               display: "flex",
               flexDirection: "column",
               gap: 2,
-              alignItems: "center",
-              justifyContent: "center",
             }}
           >
             {thanksMessage ? (
@@ -288,8 +286,8 @@ function FeedBacks() {
                   name="rating"
                   control={control}
                   render={({ field }) => (
-                    <Box>
-                      <MKTypography variant="body2" mb={0.5}>
+                    <Box display="flex">
+                      <MKTypography variant="body2" mb={0.5} mr={2}>
                         Rating
                       </MKTypography>
                       <Rating
