@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import MKButton from "components/User/MKButton";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 const paymentOptions = [
   { id: "card", label: "Credit / Debit Card" },
@@ -57,7 +58,7 @@ function SpecialRechares() {
 
   const fetchData = async () => {
     const res = await getSpecialRecharge();
-    if (res.statusCode == 200) {
+    if (res?.statusCode == 200) {
       setTopUp(res.data);
     }
   };
@@ -80,7 +81,6 @@ function SpecialRechares() {
   const checkOtp = async () => {
     if (otp && user?.PhoneNumber) {
       const res = await vertifyOtp(user?.PhoneNumber, otp);
-      console.log(res);
       if (res?.statusCode == 200) {
         setVirtualOtp("");
         setStep(4);
@@ -102,7 +102,7 @@ function SpecialRechares() {
       PayMentMethod: selectedMethod,
     };
     const res = await completeRecharge(data);
-    if (res.status != 200) {
+    if (res?.statusCode != 200) {
       toast.error("Error while confirm payment");
       return;
     }
@@ -145,6 +145,7 @@ function SpecialRechares() {
 
   return (
     <>
+      {loading && <LoadingSpinner />}
       <MKBox
         minHeight="100vh"
         width="100%"
@@ -217,7 +218,7 @@ function SpecialRechares() {
           }}
         >
           {/* Step 1 */}
-          {!loading && step === 1 && (
+          {step === 1 && (
             <>
               <Typography variant="h5" fontWeight="bold">
                 Select Special Package
@@ -290,56 +291,54 @@ function SpecialRechares() {
           {/* Step 4 */}
           {step === 4 && (
             <>
-              <>
-                <Box
+              <Box
+                sx={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: 2,
+                  padding: 3,
+                  backgroundColor: "#fafafa",
+                  maxWidth: "100%",
+                  mt: 5,
+                }}
+              >
+                <Typography variant="h5" fontWeight="bold">
+                  Confirm Recharge
+                </Typography>
+                <Divider />
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Package</Typography>
+                  <Typography>{selectedRecharge?.specialRechargeName}</Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Price</Typography>
+                  <Typography>{selectedRecharge?.price}$</Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between" py={1}>
+                  <Typography color="text.secondary">Phone Number</Typography>
+                  <Typography>{user?.PhoneNumber}</Typography>
+                </Box>
+              </Box>
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <Button
                   sx={{
-                    border: "1px solid #e0e0e0",
-                    borderRadius: 2,
-                    padding: 3,
-                    backgroundColor: "#fafafa",
-                    maxWidth: "100%",
-                    mt: 5,
+                    color: "grey",
                   }}
+                  variant="outlined"
+                  onClick={() => setStep(3)}
                 >
-                  <Typography variant="h5" fontWeight="bold">
-                    Confirm Recharge
-                  </Typography>
-                  <Divider />
-                  <Box display="flex" justifyContent="space-between" py={1}>
-                    <Typography color="text.secondary">Package</Typography>
-                    <Typography>{selectedRecharge?.specialRechargeName}</Typography>
-                  </Box>
-                  <Box display="flex" justifyContent="space-between" py={1}>
-                    <Typography color="text.secondary">Price</Typography>
-                    <Typography>{selectedRecharge?.price}$</Typography>
-                  </Box>
-                  <Box display="flex" justifyContent="space-between" py={1}>
-                    <Typography color="text.secondary">Phone Number</Typography>
-                    <Typography>{user?.PhoneNumber}</Typography>
-                  </Box>
-                </Box>
-                <Box display="flex" alignItems="center" justifyContent="center">
-                  <Button
-                    sx={{
-                      color: "grey",
-                    }}
-                    variant="outlined"
-                    onClick={() => setStep(3)}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    sx={{
-                      color: "#fff",
-                      ml: 1,
-                    }}
-                    variant="contained"
-                    onClick={() => setStep(5)}
-                  >
-                    Confirm
-                  </Button>
-                </Box>
-              </>
+                  Back
+                </Button>
+                <Button
+                  sx={{
+                    color: "#fff",
+                    ml: 1,
+                  }}
+                  variant="contained"
+                  onClick={() => setStep(5)}
+                >
+                  Confirm
+                </Button>
+              </Box>
             </>
           )}
 

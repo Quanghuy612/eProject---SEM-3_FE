@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 
 const onlineRechargeStore = create((set) => ({
   loading: false,
-  data: null,
 
   getOnlineRecharge: async () => {
     set({ loading: true });
@@ -12,12 +11,11 @@ const onlineRechargeStore = create((set) => ({
     try {
       const res = await API.get("/recharge/online-recharge");
 
-      set({
-        data: res.data.data,
-      });
+      return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading online recharges";
       toast.error(message);
+      return null;
     } finally {
       set({ loading: false });
     }
@@ -29,10 +27,6 @@ const onlineRechargeStore = create((set) => ({
     try {
       const res = await API.post("/recharge/get-otp", { Phone });
       const otpData = res.data.data.otp;
-
-      set({
-        loading: false,
-      });
 
       return otpData;
     } catch (err) {

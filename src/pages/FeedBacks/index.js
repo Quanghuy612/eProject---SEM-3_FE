@@ -33,9 +33,9 @@ import React, { useState, useEffect } from "react";
 import Rating from "@mui/material/Rating";
 import AddIcon from "@mui/icons-material/Add";
 import feedBackStore from "stores/feedBackStore";
-import { toast } from "react-toastify";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 // eslint-disable-next-line react/prop-types
 function StarDisplay({ ratting }) {
@@ -63,7 +63,7 @@ function FeedBacks() {
   const routes = getRoutes();
   const [feedbackList, setFeedbackList] = useState([]);
   const [open, setOpen] = useState(false);
-  const { getFeedBack, createFeedBack } = feedBackStore();
+  const { loading, getFeedBack, createFeedBack } = feedBackStore();
   const user = JSON.parse(localStorage.getItem("user"));
   const [totalItems, setTotalItems] = useState(1);
   const pageSize = 10;
@@ -72,8 +72,10 @@ function FeedBacks() {
 
   const fetchData = async () => {
     const res = await getFeedBack({ currentPage });
-    setTotalItems(Math.ceil(res.data.totalItems / pageSize));
-    setFeedbackList(res.data.data);
+    if (res?.statusCode == 200) {
+      setTotalItems(Math.ceil(res.data.totalItems / pageSize));
+      setFeedbackList(res.data.data);
+    }
   };
 
   useEffect(() => {
@@ -102,22 +104,20 @@ function FeedBacks() {
       UserId: user ? parseInt(user.UserId) : null,
     };
     const res = await createFeedBack(payload);
-    if (res.status != 200) {
-      toast.error("Error while creating feedback");
-      return;
+    if (res?.statusCode == 200) {
+      reset();
+      setThanksMessage("Thank you for your feedback!");
+      setTimeout(() => {
+        setThanksMessage("");
+        setOpen(false);
+        fetchData();
+      }, 2000);
     }
-    reset();
-    setThanksMessage("Thank you for your feedback!");
-
-    setTimeout(() => {
-      setThanksMessage("");
-      setOpen(false);
-      fetchData();
-    }, 2000);
   };
 
   return (
     <>
+      {loading && <LoadingSpinner />}
       <MKBox
         minHeight="100vh"
         width="100%"
@@ -184,21 +184,22 @@ function FeedBacks() {
                 </MKBox>
               }
             />
-            {feedbackList.map((feedback, index) => (
-              <MKBox key={index} pt={1} pb={1} pr={2} pl={2}>
-                <Grid item xs={12}>
-                  <Card>
-                    <CardContent>
-                      <MKTypography variant="h6">{feedback.subject}</MKTypography>
-                      <MKTypography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                        {feedback.initialMessage}
-                      </MKTypography>
-                      <StarDisplay ratting={feedback.ratting} />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </MKBox>
-            ))}
+            {feedbackList.length > 0 &&
+              feedbackList.map((feedback, index) => (
+                <MKBox key={index} pt={1} pb={1} pr={2} pl={2}>
+                  <Grid item xs={12}>
+                    <Card>
+                      <CardContent>
+                        <MKTypography variant="h6">{feedback.subject}</MKTypography>
+                        <MKTypography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          {feedback.initialMessage}
+                        </MKTypography>
+                        <StarDisplay ratting={feedback.ratting} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </MKBox>
+              ))}
             {/* Footer with pagination */}
             <CardActions sx={{ justifyContent: "center", paddingTop: 2 }}>
               <Pagination

@@ -27,14 +27,34 @@ import aboutImage from "assets/images/bg-about-us.jpg";
 import aboutCompany from "assets/images/team-1.jpg";
 import missionImage from "assets/images/bg-presentation.jpg";
 import visionImage from "assets/images/ivana-squares.jpg";
+import { motion } from "framer-motion";
 
 function AboutUs() {
   const routes = getRoutes();
+  const MotionBox = motion(MKBox);
+  const MotionGridItem = motion(Grid);
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.8, x: -50 },
+    visible: { opacity: 1, scale: 1, x: 0 },
+  };
+  const zoomVariants = {
+    hidden: { opacity: 0, scale: 0.6 },
+    visible: { opacity: 1, scale: 1 },
+  };
+
   return (
     <>
-      <MKBox width="100%" zIndex={10} position="fixed">
-        <DefaultNavbar routes={routes} light />
-      </MKBox>
+      <MotionBox
+        position="fixed"
+        width="100%"
+        zIndex={10}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <DefaultNavbar routes={routes} sticky transparent light />
+      </MotionBox>
+
       <MKBox
         minHeight="50vh"
         width="100%"
@@ -69,7 +89,15 @@ function AboutUs() {
         <Container>
           {/* About Section */}
           <Grid container spacing={6} alignItems="center" mb={8}>
-            <Grid item xs={12} md={6}>
+            <MotionGridItem
+              item
+              xs={12}
+              md={6}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 1 * 0.15, duration: 0.5, ease: "easeOut" }}
+            >
               <MKTypography variant="h3" fontWeight="bold" mb={3}>
                 Our Company
               </MKTypography>
@@ -81,8 +109,16 @@ function AboutUs() {
                 With direct connections to major carriers like Viettel, Vinaphone, and Mobifone, we
                 are committed to delivering the best service with a 99.9% success rate.
               </MKTypography>
-            </Grid>
-            <Grid item xs={12} md={6}>
+            </MotionGridItem>
+            <MotionGridItem
+              item
+              xs={12}
+              md={6}
+              variants={zoomVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 1 * 0.15, duration: 0.5, ease: "easeOut" }}
+            >
               <MKBox
                 component="img"
                 src={aboutCompany}
@@ -91,14 +127,22 @@ function AboutUs() {
                 borderRadius="lg"
                 shadow="xl"
               />
-            </Grid>
+            </MotionGridItem>
           </Grid>
 
           <Divider sx={{ my: 6 }} />
 
           {/* Mission & Vision */}
           <Grid container spacing={6}>
-            <Grid item xs={12} md={6}>
+            <MotionGridItem
+              item
+              xs={12}
+              md={6}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+            >
               <Card
                 sx={{
                   p: 3,
@@ -122,8 +166,16 @@ function AboutUs() {
                   contributing to the development of cashless payments in Vietnam.
                 </MKTypography>
               </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
+            </MotionGridItem>
+            <MotionGridItem
+              item
+              xs={12}
+              md={6}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+            >
               <Card sx={{ p: 3, height: "100%" }}>
                 <MKBox
                   component="img"
@@ -141,7 +193,7 @@ function AboutUs() {
                   innovating technology to deliver the best customer experience.
                 </MKTypography>
               </Card>
-            </Grid>
+            </MotionGridItem>
           </Grid>
 
           <Divider sx={{ my: 6 }} />

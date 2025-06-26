@@ -17,6 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useEffect, useState, useCallback } from "react";
 import MDButton from "components/Admin/MDButton";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -38,6 +39,7 @@ function Packages() {
   const [tableDataSpecialService, setTableDataSpecialService] = useState({ columns: [], rows: [] });
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(false);
+  const { loading } = useAdminStore();
 
   const handleToggle = useCallback(
     async (packageItem) => {
@@ -91,183 +93,186 @@ function Packages() {
   };
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Grid container spacing={6}>
-          <Grid item xs={4}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-                sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MDTypography variant="h6" color="white" sx={{ flexGrow: 1 }}>
-                  Top up packages
-                </MDTypography>
-                <Fab
-                  onClick={() => {
-                    setOpen(true);
-                    setType("topup");
-                  }}
-                  style={{ width: 35, height: 35, minHeight: 35 }}
+    <>
+      {loading && <LoadingSpinner />}
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox pt={6} pb={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={4}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
                 >
-                  <AddIcon />
-                </Fab>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={tableDataTopUp}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={true}
-                />
-              </MDBox>
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="warning"
-                borderRadius="lg"
-                coloredShadow="warning"
-                sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MDTypography variant="h6" color="white">
-                  Special Packages
-                </MDTypography>
-                <Fab
-                  onClick={() => {
-                    setOpen(true);
-                    setType("specialrecharge");
-                  }}
-                  style={{ width: 35, height: 35, minHeight: 35 }}
+                  <MDTypography variant="h6" color="white" sx={{ flexGrow: 1 }}>
+                    Top up packages
+                  </MDTypography>
+                  <Fab
+                    onClick={() => {
+                      setOpen(true);
+                      setType("topup");
+                    }}
+                    style={{ width: 35, height: 35, minHeight: 35 }}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={tableDataTopUp}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
+            <Grid item xs={4}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="warning"
+                  borderRadius="lg"
+                  coloredShadow="warning"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
                 >
-                  <AddIcon />
-                </Fab>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={tableDataSpecialRecharge}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={true}
-                />
-              </MDBox>
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="success"
-                borderRadius="lg"
-                coloredShadow="success"
-                sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MDTypography variant="h6" color="white">
-                  Services Packages
-                </MDTypography>
-                <Fab
-                  onClick={() => {
-                    setOpen(true);
-                    setType("specialservice");
-                  }}
-                  style={{ width: 35, height: 35, minHeight: 35 }}
+                  <MDTypography variant="h6" color="white">
+                    Special Packages
+                  </MDTypography>
+                  <Fab
+                    onClick={() => {
+                      setOpen(true);
+                      setType("specialrecharge");
+                    }}
+                    style={{ width: 35, height: 35, minHeight: 35 }}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={tableDataSpecialRecharge}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
+            <Grid item xs={4}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="success"
+                  borderRadius="lg"
+                  coloredShadow="success"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
                 >
-                  <AddIcon />
-                </Fab>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={tableDataSpecialService}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={true}
-                />
-              </MDBox>
-            </Card>
+                  <MDTypography variant="h6" color="white">
+                    Services Packages
+                  </MDTypography>
+                  <Fab
+                    onClick={() => {
+                      setOpen(true);
+                      setType("specialservice");
+                    }}
+                    style={{ width: 35, height: 35, minHeight: 35 }}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={tableDataSpecialService}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </MDBox>
+        </MDBox>
 
-      <Modal
-        open={open}
-        onClose={() => {
-          reset();
-          setOpen(false);
-        }}
-      >
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 500,
-            bgcolor: "background.paper",
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            alignItems: "center",
-            justifyContent: "center",
+        <Modal
+          open={open}
+          onClose={() => {
+            reset();
+            setOpen(false);
           }}
         >
-          <MDTypography variant="h6" fontWeight="bold" mb={2}>
-            {`Add a ${
-              type === "topup"
-                ? "Top-up"
-                : type === "specialrecharge"
-                ? "Special Recharge"
-                : type === "specialservice"
-                ? "Special Service"
-                : ""
-            } Package`}
-          </MDTypography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 500,
+              bgcolor: "background.paper",
+              borderRadius: 2,
+              boxShadow: 24,
+              p: 4,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MDTypography variant="h6" fontWeight="bold" mb={2}>
+              {`Add a ${
+                type === "topup"
+                  ? "Top-up"
+                  : type === "specialrecharge"
+                  ? "Special Recharge"
+                  : type === "specialservice"
+                  ? "Special Service"
+                  : ""
+              } Package`}
+            </MDTypography>
 
-          <TextField
-            label="Name"
-            fullWidth
-            {...register("name")}
-            error={!!errors.name}
-            helperText={errors.name?.message}
-          />
+            <TextField
+              label="Name"
+              fullWidth
+              {...register("name")}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
 
-          <TextField
-            label="Amount"
-            fullWidth
-            type="number"
-            {...register("amount")}
-            error={!!errors.amount}
-            helperText={errors.amount?.message}
-          />
+            <TextField
+              label="Amount"
+              fullWidth
+              type="number"
+              {...register("amount")}
+              error={!!errors.amount}
+              helperText={errors.amount?.message}
+            />
 
-          <MDButton variant="contained" color="primary" type="submit" fullWidth>
-            Submit
-          </MDButton>
-        </Box>
-      </Modal>
-    </DashboardLayout>
+            <MDButton variant="contained" color="primary" type="submit" fullWidth>
+              Submit
+            </MDButton>
+          </Box>
+        </Modal>
+      </DashboardLayout>
+    </>
   );
 }
 

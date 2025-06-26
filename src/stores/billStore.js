@@ -1,13 +1,12 @@
 import { create } from "zustand";
 import API from "api/api";
+import { toast } from "react-toastify";
 
 const billStore = create((set) => ({
   loading: false,
-  error: null,
-  data: null,
 
   getBill: async ({ fromDate, toDate, isPaid, currentPage }) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.get("/bill/my-bills", {
@@ -19,21 +18,18 @@ const billStore = create((set) => ({
         },
       });
 
-      set({
-        loading: false,
-      });
-
       return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading bills";
-      set({ error: message, loading: false });
-
-      return err;
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 
   getTransaction: async ({ fromDate, toDate, currentPage }) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
     try {
       const res = await API.get("/transaction/my-transactions", {
         params: {
@@ -43,35 +39,28 @@ const billStore = create((set) => ({
         },
       });
 
-      set({
-        loading: false,
-      });
-
       return res.data;
     } catch (err) {
       const message = err?.response?.data?.message || "Error loading transactions";
-      set({ error: message, loading: false });
-
-      return err;
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 
   completePayBill: async (data) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
 
     try {
       const res = await API.post("/transaction/pay-bills", data);
-
-      set({
-        loading: false,
-      });
-
-      return res;
+      return res.data;
     } catch (err) {
-      const message = err?.response?.data?.message || "Error vertify otp";
-      set({ error: message, loading: false });
-
-      return err;
+      const message = err?.response?.data?.message || "Error paying bill";
+      toast.error(message);
+      return null;
+    } finally {
+      set({ loading: false });
     }
   },
 }));

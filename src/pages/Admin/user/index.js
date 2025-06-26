@@ -16,11 +16,13 @@ import useAdminStore from "stores/adminStore";
 import { exportToExcel } from "utils/exportExcel";
 
 import { useEffect, useState } from "react";
+import LoadingSpinner from "examples/User/LoadingSpinner/LoadingSpinner";
 
 function Users() {
   const getUsers = useAdminStore((state) => state.getUsers);
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
   const [excel, setExcel] = useState(null);
+  const { loading } = useAdminStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,54 +37,57 @@ function Users() {
   }, []);
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-                sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MDTypography variant="h6" color="white">
-                  Users
-                </MDTypography>
-                <Button
-                  sx={{
-                    backgroundColor: "#FFA000",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#FF8F00",
-                      opacity: 0.9,
-                    },
-                  }}
-                  onClick={() => exportToExcel(excel, "Bills.xlsx")}
+    <>
+      {loading && <LoadingSpinner />}
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox pt={6} pb={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
                 >
-                  Export Excel
-                </Button>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={tableData}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
-              </MDBox>
-            </Card>
+                  <MDTypography variant="h6" color="white">
+                    Users
+                  </MDTypography>
+                  <Button
+                    sx={{
+                      backgroundColor: "#FFA000",
+                      color: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#FF8F00",
+                        opacity: 0.9,
+                      },
+                    }}
+                    onClick={() => exportToExcel(excel, "Bills.xlsx")}
+                  >
+                    Export Excel
+                  </Button>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={tableData}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </MDBox>
-    </DashboardLayout>
+        </MDBox>
+      </DashboardLayout>
+    </>
   );
 }
 

@@ -39,12 +39,6 @@ const getRoutes = () => {
       component: <AboutUs />,
     },
     {
-      name: "feedbacks",
-      icon: <ContactMailIcon />,
-      route: "/feedback",
-      component: <FeedBacks />,
-    },
-    {
       name: "contact us",
       icon: <InfoIcon />,
       route: "/contact-us",
