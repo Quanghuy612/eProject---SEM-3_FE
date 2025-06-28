@@ -1,0 +1,16 @@
+﻿global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using server.DTOs.LoginDTO;
+global using server.DTOs.RefreshTokenDTO;
+global using server.DTOs.MenuDTO;
+global using server.DTOs.RechargeDTO;
+global using server.DTOs.AdminDTO;
+global using server.Services;
+global using server.Models;
+global using server.Database;
+global using server.Helpers;
+global using server.Repositories;
+global using Microsoft.EntityFrameworkCore;
+global using server.DTOs.ApiResponseDTO;
+global using Microsoft.Extensions.Caching.Memory;
+global using server.ChatHub;
