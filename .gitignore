@@ -1,4 +1,57 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+# Ignore build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio cache files
+.vs/
+
+# Rider project files
+.idea/
+
+# NuGet packages
+*.nupkg
+packages/
+.nuget/
+
+# ASP.NET temporary files
+*.log
+*.vspscc
+
+# Publish output
+publish/
+wwwroot/
+
+# Environment variables file
+.env
+.env.*
+
+# Dotnet tool files
+*.dotnet/
+
+# Logs
+logs/
+*.log
+
+# Debug
+*.pdb
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Mac OS files
+.DS_Store
+
+# Others
+*.db
+*.sqlite
 
 # dependencies
 /node_modules
